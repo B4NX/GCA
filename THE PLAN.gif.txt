@@ -1,0 +1,23 @@
+OKAY
+
+okay
+
+so
+
+Here's what needs to happen.
+
+First, let's get the CA working for sure. We want to test rule 90, rule 30, maybe a couple others. The interesting 
+ones. One of us should check which are the Class-IV ones.
+
+Then, we want to hook that up to a pathfinding thing. Set it up so that certain cell(s) control a movement head, 
+which can MOVE in the direction its facing or TURN to the right. This isn't going to work very well at all, but
+it will look fancy. 
+
+Finally, we hook up the GA to the intial conditions for the CA. The GA keeps track of the CA seed (the dots which
+are initially 1 or 0) and uses the taxicab distance from the target after a predefined number of moves as its heuristic. 
+This will select for things that don't necessarily find the best path, but ones that get the closest to the target cell.
+We can acknowledge this shortcoming in our paper. It will sound fancy. 
+If the pathfinding head reaches the target within the move limit, that will also end it. Because the problem was solved.
+
+I'm putting this here so that you can be somewhat autonomous while I'm gone over midwinter break. We need to get our
+asses in gear.
