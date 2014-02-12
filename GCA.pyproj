@@ -1,0 +1,914 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{634cae69-36ff-4fba-8c72-8d909b15e8d9}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>SLN\GCA.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>GCA</Name>
+    <RootNamespace>GCA</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CA\CA.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\algorithms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\benchmarks\binary.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\benchmarks\gp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\benchmarks\movingpeaks.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\benchmarks\tools.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\benchmarks\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\cma.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\creator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\gp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tests\test_logbook.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tests\test_pickle.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tests\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\crossover.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\emo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\init.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\migration.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\mutation.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\selection.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\support.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\tools\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\build\lib\deap\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\algorithms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\benchmarks\binary.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\benchmarks\gp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\benchmarks\movingpeaks.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\benchmarks\tools.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\benchmarks\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\cma.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\creator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\gp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tests\test_logbook.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tests\test_pickle.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tests\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\crossover.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\emo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\init.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\migration.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\mutation.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\selection.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\support.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\tools\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\deap\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\ackley.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\bohachevsky.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\griewank.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\h1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\himmelblau.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\kursawe.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\movingsc1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\rastrigin.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\rosenbrock.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\schaffer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\schwefel.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\benchmarks\shekel.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\bbob.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\coop_adapt.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\coop_base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\coop_evol.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\coop_gen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\coop_niche.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\hillis.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\coev\symbreg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\de\basic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\de\dynamic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\de\sphere.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\eda\fctmin.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\eda\pbil.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\es\cma_1+l_minfct.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\es\cma_bipop.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\es\cma_minfct.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\es\cma_plotting.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\es\fctmin.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\es\onefifth.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\evoknn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\evoknn_jmlr.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\evosn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\knapsack.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\knn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\kursawefct.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\nqueens.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\nsga2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax_island.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax_island_scoop.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax_mp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax_multidemic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax_numpy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\onemax_short.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\sortingnetwork.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\tsp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\ga\xkcd.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\adf_symbreg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\ant.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\ant\buildAntSimFast.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\multiplexer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\parity.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\spambase.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\symbreg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\symbreg_numpy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\gp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\pso\basic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\pso\multiswarm.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\examples\pso\speciation.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_1\1_where_to_start.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_1_fitness.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_2_1_list_of_floats.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_2_2_permutation.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_2_3_arithmetic_expression.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_2_4_evolution_strategy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_2_5_particle.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_2_6_funky_one.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_3_1_bag.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_3_2_grid.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_3_3_swarm.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_3_4_demes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_2\2_3_5_seeding_a_population.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_3\3_6_2_tool_decoration.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_3\3_6_using_the_toolbox.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_3\3_7_variations.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_3\3_8_algorithms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_3\3_next_step.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_4\4_4_Using_Cpp_NSGA.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_4\4_5_home_made_eval_func.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_4\installSN.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\code\tutorials\part_4\sortingnetwork.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\doc\conf.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\bbob.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\coop_adapt.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\coop_base.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\coop_evol.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\coop_gen.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\coop_niche.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\hillis.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\coev\symbreg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\de\basic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\de\dynamic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\de\sphere.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\eda\fctmin.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\eda\pbil.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\es\cma_1+l_minfct.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\es\cma_bipop.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\es\cma_minfct.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\es\cma_plotting.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\es\fctmin.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\es\onefifth.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\evoknn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\evoknn_jmlr.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\evosn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\knapsack.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\knn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\kursawefct.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\nqueens.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\nsga2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax_island.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax_island_scoop.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax_mp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax_multidemic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax_numpy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\onemax_short.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\sortingnetwork.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\tsp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\ga\xkcd.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\adf_symbreg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\ant.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\ant\buildAntSimFast.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\multiplexer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\parity.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\spambase.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\symbreg.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\symbreg_numpy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\gp\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\pso\basic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\pso\multiswarm.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\examples\pso\speciation.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GA\setup.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SLN\GCA.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CA\" />
+    <Folder Include="GA\" />
+    <Folder Include="GA\build\" />
+    <Folder Include="GA\build\lib\" />
+    <Folder Include="GA\build\lib\deap\" />
+    <Folder Include="GA\build\lib\deap\benchmarks\" />
+    <Folder Include="GA\build\lib\deap\tests\" />
+    <Folder Include="GA\build\lib\deap\tools\" />
+    <Folder Include="GA\deap\" />
+    <Folder Include="GA\deap\benchmarks\" />
+    <Folder Include="GA\deap\tests\" />
+    <Folder Include="GA\deap\tools\" />
+    <Folder Include="GA\deap\__pycache__\" />
+    <Folder Include="GA\doc\" />
+    <Folder Include="GA\doc\api\" />
+    <Folder Include="GA\doc\code\" />
+    <Folder Include="GA\doc\code\benchmarks\" />
+    <Folder Include="GA\doc\code\examples\" />
+    <Folder Include="GA\doc\code\examples\coev\" />
+    <Folder Include="GA\doc\code\examples\de\" />
+    <Folder Include="GA\doc\code\examples\eda\" />
+    <Folder Include="GA\doc\code\examples\es\" />
+    <Folder Include="GA\doc\code\examples\ga\" />
+    <Folder Include="GA\doc\code\examples\ga\pareto_front\" />
+    <Folder Include="GA\doc\code\examples\ga\tsp\" />
+    <Folder Include="GA\doc\code\examples\gp\" />
+    <Folder Include="GA\doc\code\examples\gp\ant\" />
+    <Folder Include="GA\doc\code\examples\pso\" />
+    <Folder Include="GA\doc\code\tutorials\" />
+    <Folder Include="GA\doc\code\tutorials\part_1\" />
+    <Folder Include="GA\doc\code\tutorials\part_2\" />
+    <Folder Include="GA\doc\code\tutorials\part_3\" />
+    <Folder Include="GA\doc\code\tutorials\part_4\" />
+    <Folder Include="GA\doc\examples\" />
+    <Folder Include="GA\doc\tutorials\" />
+    <Folder Include="GA\doc\tutorials\advanced\" />
+    <Folder Include="GA\doc\tutorials\basic\" />
+    <Folder Include="GA\doc\_images\" />
+    <Folder Include="GA\doc\_static\" />
+    <Folder Include="GA\doc\_templates\" />
+    <Folder Include="GA\doc\_themes\" />
+    <Folder Include="GA\doc\_themes\pydoctheme\" />
+    <Folder Include="GA\doc\_themes\pydoctheme\static\" />
+    <Folder Include="GA\examples\" />
+    <Folder Include="GA\examples\coev\" />
+    <Folder Include="GA\examples\de\" />
+    <Folder Include="GA\examples\eda\" />
+    <Folder Include="GA\examples\es\" />
+    <Folder Include="GA\examples\ga\" />
+    <Folder Include="GA\examples\ga\pareto_front\" />
+    <Folder Include="GA\examples\ga\tsp\" />
+    <Folder Include="GA\examples\gp\" />
+    <Folder Include="GA\examples\gp\ant\" />
+    <Folder Include="GA\examples\pso\" />
+    <Folder Include="SLN\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GA\deap\__pycache__\__init__.cpython-33.pyc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\about.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\algo.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\base.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\benchmarks.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\core.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\creator.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\gp.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\index.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\api\tools.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\heart_scale.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\dtlz1_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\dtlz2_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\dtlz3_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\dtlz4_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\zdt1_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\zdt2_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\zdt3_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\zdt4_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\pareto_front\zdt6_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\tsp\gr120.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\tsp\gr17.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\ga\tsp\gr24.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\gp\ant\AntSimulatorFast.cpp">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\gp\ant\AntSimulatorFast.hpp">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\gp\ant\santafe_trail.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\examples\gp\spambase.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\tutorials\part_2\my_guess.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\code\tutorials\part_4\SNC.cpp">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\contributing.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\bipop_cmaes.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\checkpoint.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\cmaes.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\cmaes_plotting.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\coev_coop.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\eda.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\es_fctmin.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\es_onefifth.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\ga_knapsack.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\ga_onemax.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\ga_onemax_short.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\gp_ant.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\gp_multiplexer.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\gp_parity.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\gp_spambase.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\gp_symbreg.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\index.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\examples\pso_basic.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\index.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\installation.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\Makefile">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\overview.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\pip_req.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\releases.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\advanced\benchmarking.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\advanced\gp.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\advanced\numpy.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\advanced\speedup.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\basic\part1.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\basic\part2.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\tutorials\basic\part3.rst">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_images\genealogy.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_images\gptree.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_images\gptypederrtree.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_images\gptypedtree.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_images\gptypedtrees.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_images\more.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\copybutton.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\deap_icon_16x16.ico">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\deap_long.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\deap_orange_icon_16x16.ico">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\lvsn.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\sidebar.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_static\ul.gif">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_templates\indexsidebar.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_templates\layout.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_themes\pydoctheme\static\pydoctheme.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\doc\_themes\pydoctheme\theme.conf">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\heart_scale.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\dtlz1_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\dtlz2_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\dtlz3_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\dtlz4_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\zdt1_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\zdt2_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\zdt3_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\zdt4_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\pareto_front\zdt6_front.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\tsp\gr120.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\tsp\gr17.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\ga\tsp\gr24.json">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\examples\gp\spambase.csv">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\INSTALL.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\LICENSE.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\PKG-INFO">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="GA\README.txt">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>
