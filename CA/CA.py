@@ -2,6 +2,7 @@ import Image
 import ImageOps
 import random
 
+
 def step(a, rule, k=2, r=1):
     nbrs = [a[c:] + a[:c] for c in range(-r, r+1, 1)]
     l = []
