@@ -14,26 +14,26 @@ restarts, with different population sizes, of a standard CMA-ES.
 As usual, the first thing to do is to create the types and as usual, we'll
 need a minimizing fitness and an individual that is a :class:`list`.
 
-.. literalinclude:: /code/examples/es/cma_bipop.py
+.. literalinclude:: /code/examples/es/cmaes_bipop.py
    :lines: 34-35
 
 The main function includes the setting of some parameters, namely the number
 of increasing population restarts and the initial sigma value. Then, the
 instanciation of the :class:`~deap.base.Toolbox` is done in the main function
 because it will change with the restarts. Next are initialized the
-:class:`~deap.tools.HallOfFame` and the list of :class:`~deap.tools.Statistics`
-objects, one for each restart.
+:class:`~deap.tools.HallOfFame` and the :class:`~deap.tools.Statistics`
+objects.
 
-.. literalinclude:: /code/examples/es/cma_bipop.py
-   :lines: 37-45
+.. literalinclude:: /code/examples/es/cmaes_bipop.py
+   :lines: 37-50
 
 Then the first loop controlling the restart is set up. It encapsulates the
 generational loop with its many stop criteria. The content of this last loop
 is simply the generate-update loop as presented in the
 :func:`deap.algorithms.eaGenerateUpdate` function.
 
-.. literalinclude:: /code/examples/es/cma_bipop.py
-   :lines: 54,92-104,108-121,145-184,187-189
+.. literalinclude:: /code/examples/es/cmaes_bipop.py
+   :lines: 65,101,103-110,113-120,124-126,149-188,191
 
 Some variables have been omited for clarity, refer to the complete example for
 more details [`source code <code/es/cmaes_bipop.py>`_].

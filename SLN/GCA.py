@@ -10,4 +10,4 @@ class SheepSim:
     def __init__(self):
         print("Pre-order now")
 
-x=SheepSim()
+x = SheepSim()

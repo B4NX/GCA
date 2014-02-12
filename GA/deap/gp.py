@@ -22,22 +22,18 @@ This module support both strongly and loosely typed GP.
 
 import copy
 import random
-import re
 import sys
 
 from collections import defaultdict
-from functools import partial,wraps
-from inspect import isclass
+from functools import partial
 from operator import eq, lt
 
-from deap import creator
-
 ######################################
-# GP Data structure                  #
+# GP Data structure #
 ######################################
 
 # Define the name of type for any types.
-__type__ = object
+__type__ = None
 
 class PrimitiveTree(list):
     """Tree spefically formated for optimization of genetic 
@@ -60,7 +56,7 @@ class PrimitiveTree(list):
         # Does NOT check for STGP constraints
         if isinstance(key, slice):
             if (key.start >= len(self)):
-                raise IndexError, "Invalid slice object (try to assign a %s"\
+                raise "Invalid slice object (try to assign a %s"\
                     " in a tree of size %d). Even if this is allowed by the"\
                     " list object slice setter, this should not be done in"\
                     " the PrimitiveTree context, as this may lead to an"\
@@ -70,7 +66,7 @@ class PrimitiveTree(list):
             for node in val[1:]:
                 total += node.arity - 1
             if total != 0:
-                raise ValueError, "Invalid slice assignation : insertion of"\
+                raise "Invalid slice assignation : insertion of"\
                     " an incomplete subtree is not allowed in PrimitiveTree."\
                     " A tree is defined as incomplete when some nodes cannot"\
                     " be mapped to any position in the tree, considering the"\
@@ -78,55 +74,9 @@ class PrimitiveTree(list):
                     " 6] is incomplete if the arity of sub is 2, because it"\
                     " would produce an orphan node (the 6)."
         elif val.arity != self[key].arity:
-            raise ValueError, "Invalid node replacement with a node of a"\
+            raise "Invalid node replacement with a node of a"\
                     " different arity."
         list.__setitem__(self, key, val)
-
-    @classmethod
-    def from_string(cls, string, pset):
-        """Try to convert a string expression into a PrimitiveTree given a 
-        PrimitiveSet *pset*.
-
-        The primitive set needs to contain every primitives and terminals
-        that are present in the expression. In the cases of terminals,
-        the function will convert it to a Terminal even if it is not already
-        present in the set. Numbers are converted to float, and strings stay
-        strings. 
-
-        .. warning:: This functions does not work with STGP terminals that
-                     are not defined in the PrimitiveSet since it is not 
-                     possible to guess the type.
-        """
-        tokens = re.split("[ \t\n\r\f\v(),]", string)
-        expr = []
-        for token in tokens:
-            if token == '':
-                continue
-            if pset.mapping.has_key(token):
-                expr.append(pset.mapping[token])
-            else:
-                try:
-                    token = float(token)
-                except ValueError:
-                    pass
-                expr.append(Terminal(token, False, __type__))
-        return cls(expr)
-
-    def to_string(self):
-        """Return the expression in a human readable string.
-        """
-        string = ""
-        stack = []
-        for node in self:
-            stack.append((node, []))
-            while len(stack[-1][1]) == stack[-1][0].arity:
-                prim, args = stack.pop()
-                string = prim.format(*args)
-                if len(stack) == 0:
-                    break   # If stack is empty, all nodes should have been seen
-                stack[-1][1].append(string)
-
-        return string
 
     @property
     def height(self):
@@ -138,7 +88,7 @@ class PrimitiveTree(list):
         for elem in self:
             depth = stack.pop()
             max_depth = max(max_depth, depth)
-            stack.extend([depth+1] * elem.arity)
+            stack.extend([depth + 1] * elem.arity)
         return max_depth
 
     @property
@@ -164,13 +114,14 @@ class Primitive(object):
     """Class that encapsulates a primitive and when called with arguments it
     returns the Python code to call the primitive with the arguments.
         
-        >>> pr = Primitive("mul", (int, int), int)
+        >>> import operator
+        >>> pr = Primitive(operator.mul, (int, int), int)
         >>> pr.format(1, 2)
         'mul(1, 2)'
-    """
+    """    
     __slots__ = ('name', 'arity', 'args', 'ret', 'seq')
-    def __init__(self, name, args, ret):
-        self.name = name
+    def __init__(self, primitive, args, ret):
+        self.name = primitive.__name__
         self.arity = len(args)           
         self.args = args
         self.ret = ret
@@ -179,6 +130,32 @@ class Primitive(object):
     
     def format(self, *args):
         return self.seq.format(*args)
+
+    def __repr__(self):
+        return self.name
+
+class Operator(Primitive):
+    """Class that encapsulates an operator and when called with arguments it
+    returns the Python code to call the operator with the arguments. It acts
+    as the Primitive class, but instead of returning a function and its 
+    arguments, it returns an operator and its operands.
+        
+        >>> import operator
+        >>> op = Operator(operator.mul, '*', (int, int), int)
+        >>> op.format(1, 2)
+        '(1 * 2)'
+        >>> op2 = Operator(operator.neg, '-', (int,), int)
+        >>> op2.format(1)
+        '-(1)'
+    """
+    def __init__(self, operator, symbol, args, ret):
+        Primitive.__init__(self, operator, args, ret)
+        if self.arity == 1:
+            self.seq = "{symbol}({{0}})".format(symbol=symbol)
+        elif self.arity == 2:
+            self.seq = "({{0}} {symbol} {{1}})".format(symbol=symbol)
+        else:
+            raise ValueError("Operator arity can be either 1 or 2.")
 
 class Terminal(object):
     """Class that encapsulates terminal primitive in expression. Terminals can
@@ -196,99 +173,79 @@ class Terminal(object):
 
     def format(self):
         return self.conv_fct(self.value)
+    
+    def __repr__(self):
+        return self.conv_fct(self.value)
 
 class Ephemeral(Terminal):
-    """Class that encapsulates a terminal which value is set when the
-    object is created. To mutate the value, a new object has to be
-    generated.
+    """Class that encapsulates a terminal which value is set at run-time.
+    The value of the `Ephemeral` can be regenerated by creating a new
+    Ephemeral object with the same parameters (func and ret).
     """
-    def __init__(self):
-        Terminal.__init__(self, self.func(), symbolic=False, ret=self.ret)
-
-    def func():
-        pass
+    def __init__(self, func, ret):
+        self.func = func
+        Terminal.__init__(self, self.func(), False, ret)
+        
+class EphemeralGenerator(object):
+    """Class that generates `Ephemeral` to be added to an expression."""
+    __slots__ = ('name', 'ret', 'func')    
+    def __init__(self, ephemeral, ret):
+        self.ret = ret
+        self.name = ephemeral.__name__
+        self.func = ephemeral
+    
+    def __call__(self):
+        return Ephemeral(self.func, self.ret)
+    
+    def __repr__(self):
+        return self.name
 
 class PrimitiveSetTyped(object):
     """Class that contains the primitives that can be used to solve a
     Strongly Typed GP problem. The set also defined the researched
     function return type, and input arguments type and number.
     """
-    def __init__(self, name, in_types, ret_type, prefix = "ARG"):
+    def __init__(self, name, in_types, ret_type, prefix="ARG"):
         self.terminals = defaultdict(list)
         self.primitives = defaultdict(list)
         self.arguments = []
         self.context = dict()
-        self.mapping = dict()
         self.terms_count = 0
         self.prims_count = 0
         
-        self.name = name 
+        self.__name__ = name 
         self.ret = ret_type
         self.ins = in_types
         for i, type_ in enumerate(in_types):
-            arg_str = "{prefix}{index}".format(prefix=prefix, index=i)
+            arg_str = "{prefix}{index}".format(prefix=prefix,index=i)
             self.arguments.append(arg_str)
-            term = Terminal(arg_str, True, type_)
-            self._add(term)
-            self.mapping[term.value] = term
+            self.terminals[type_].append(Terminal(arg_str, True, type_))
             self.terms_count += 1
 
     def renameArguments(self, **kargs):
         """Rename function arguments with new names from *kargs*.
         """
-        for i, old_name in enumerate(self.arguments):
-            if old_name in kargs:
-                new_name = kargs[old_name]
-                self.arguments[i] = new_name
-                self.mapping[new_name] = self.mapping[old_name]
-                self.mapping[new_name].value = new_name
-                del self.mapping[old_name]
+        for i, argument in enumerate(self.arguments):
+            if argument in kargs:
+                self.arguments[i] = kargs[argument]
+        for terminals in self.terminals.itervalues():
+            for terminal in terminals:
+                if isinstance(terminal, Terminal) and terminal.value in kargs:
+                    terminal.value = kargs[terminal.value]
 
-    def _add(self, prim):
-        def addType(dict_, ret_type):
-            if not ret_type in dict_:
-                dict_[ret_type]
-                for type_, list_ in dict_.items():
-                    if issubclass(type_, ret_type):
-                        dict_[ret_type].extend(list_)
-
-        addType(self.primitives, prim.ret)
-        addType(self.terminals, prim.ret)
-
-        if isinstance(prim, Primitive):
-            for type_ in prim.args:
-                addType(self.primitives, type_)
-                addType(self.terminals, type_)
-            dict_ = self.primitives
-        else:
-            dict_ = self.terminals
-
-        for type_ in dict_:
-            if issubclass(prim.ret, type_):
-                dict_[type_].append(prim)
-
-    def addPrimitive(self, primitive, in_types, ret_type, name=None):
+    def addPrimitive(self, primitive, in_types, ret_type, symbol=None):
         """Add a primitive to the set. 
 
         *primitive* is a callable object or a function.
         *in_types* is a list of argument's types the primitive takes.
         *ret_type* is the type returned by the primitive.
-        *name* is the alternative name for the primitive instead
-        of its __name__ attribute.
         """
-        if name is None:
-            name = primitive.__name__
-        prim = Primitive(name, in_types, ret_type)
-
-        assert name not in self.context or \
-               self.context[name] is primitive, \
-               "Primitives are required to have a unique name. " \
-               "Consider using the argument 'name' to rename your "\
-               "second '%s' primitive." % (name,)
-
-        self._add(prim)
-        self.context[prim.name] = primitive
-        self.mapping[prim.name] = prim
+        if symbol is not None:
+            prim = Operator(primitive, symbol, in_types, ret_type)
+        else:
+            prim = Primitive(primitive, in_types, ret_type)
+        self.primitives[ret_type].append(prim)
+        self.context[primitive.__name__] = primitive
         self.prims_count += 1
         
     def addTerminal(self, terminal, ret_type, name=None):
@@ -307,35 +264,27 @@ class PrimitiveSetTyped(object):
         if name is None and callable(terminal):
             name = terminal.__name__
         
-        assert name not in self.context, \
-               "Terminals are required to have a unique name. " \
-               "Consider using the argument 'name' to rename your "\
-               "second %s terminal." % (name,)
-
         if name is not None:
             self.context[name] = terminal
             terminal = name
             symbolic = True
 
         prim = Terminal(terminal, symbolic, ret_type)
-        self._add(prim)
-        self.mapping[prim.value] = prim
+
+        self.terminals[ret_type].append(prim)
         self.terms_count += 1
         
-    def addEphemeralConstant(self, name, ephemeral, ret_type):
+    def addEphemeralConstant(self, ephemeral, ret_type):
         """Add an ephemeral constant to the set. An ephemeral constant
         is a no argument function that returns a random value. The value
         of the constant is constant for a Tree, but may differ from one
         Tree to another.
 
-        *name* is the name that will be used to refers to this ephemeral type.
         *ephemeral* function with no arguments that returns a random value.
         *ret_type* is the type of the object returned by the function.
         """
-        creator.create(name, Ephemeral, func=staticmethod(ephemeral))
-        class_ = getattr(creator, name)
-        class_.ret = ret_type
-        self._add(class_)
+        prim = EphemeralGenerator(ephemeral, ret_type)
+        self.terminals[ret_type].append(prim)
         self.terms_count += 1
         
     def addADF(self, adfset):
@@ -344,8 +293,8 @@ class PrimitiveSetTyped(object):
         *adfset* is a PrimitiveSetTyped containing the primitives with which
         the ADF can be built.        
         """
-        prim = Primitive(adfset.name, adfset.ins, adfset.ret)
-        self._add(prim)
+        prim = Primitive(adfset, adfset.ins, adfset.ret)
+        self.primitives[adfset.ret].append(prim)
         self.prims_count += 1
     
     @property
@@ -360,35 +309,29 @@ class PrimitiveSet(PrimitiveSetTyped):
     definition of type.
     """
     def __init__(self, name, arity, prefix="ARG"):
-        args = [__type__]*arity
+        args = [__type__] * arity
         PrimitiveSetTyped.__init__(self, name, args, __type__, prefix)
 
-    def addPrimitive(self, primitive, arity, name=None):
-        """Add primitive *primitive* with arity *arity* to the set. 
-        If a name *name* is provided, it will replace the attribute __name__
-        attribute to represent/identify the primitive.
-        """
+    def addPrimitive(self, primitive, arity, symbol=None):
+        """Add primitive *primitive* with arity *arity* to the set."""
         assert arity > 0, "arity should be >= 1"
         args = [__type__] * arity 
-        PrimitiveSetTyped.addPrimitive(self, primitive, args, __type__, name)
+        PrimitiveSetTyped.addPrimitive(self, primitive, args, __type__, symbol)
 
     def addTerminal(self, terminal, name=None):
         """Add a terminal to the set.""" 
         PrimitiveSetTyped.addTerminal(self, terminal, __type__, name)
 
-    def addEphemeralConstant(self, name, ephemeral):
+    def addEphemeralConstant(self, ephemeral):
         """Add an ephemeral constant to the set."""
-        PrimitiveSetTyped.addEphemeralConstant(self, name, ephemeral, __type__)
+        PrimitiveSetTyped.addEphemeralConstant(self, ephemeral, __type__)
 
 
 ######################################
-# GP Tree evaluation functions       #
+# GP Tree evaluation functions #
 ######################################
 def stringify(expr):
     """Evaluate the expression *expr* into a string.
-
-    .. deprecated:: 1.0
-        Use PrimitiveTree.to_string instead.
     """
     string = ""
     stack = []
@@ -411,11 +354,11 @@ def evaluate(expr, pset):
         return eval(string, dict(pset.context))
     except MemoryError:
         _, _, traceback = sys.exc_info()
-        raise MemoryError, ("DEAP : Error in tree evaluation :"
+        raise ("DEAP : Error in tree evaluation :"
         " Python cannot evaluate a tree higher than 90. "
         "To avoid this problem, you should use bloat control on your "
         "operators. See the DEAP documentation for more information. "
-        "DEAP will now abort."), traceback
+        "DEAP will now abort.")
 
 def lambdify(expr, pset):
     """Return a lambda function of the expression *expr*.
@@ -431,13 +374,13 @@ def lambdify(expr, pset):
         return eval(lstr, dict(pset.context))
     except MemoryError:
         _, _, traceback = sys.exc_info()
-        raise MemoryError, ("DEAP : Error in tree evaluation :"
+        raise ("DEAP : Error in tree evaluation :"
         " Python cannot evaluate a tree higher than 90. "
         "To avoid this problem, you should use bloat control on your "
         "operators. See the DEAP documentation for more information. "
-        "DEAP will now abort."), traceback
+        "DEAP will now abort.")
 
-def lambdifyADF(expr, psets):
+def lambdifyADF(expr):
     """Return a lambda function created from a list of trees. The first 
     element of the list is the main tree, and the following elements are
     automatically defined functions (ADF) that can be called by the first
@@ -445,14 +388,14 @@ def lambdifyADF(expr, psets):
     """
     adfdict = {}
     func = None
-    for pset, subexpr in reversed(zip(psets, expr)):
-        pset.context.update(adfdict)
-        func = lambdify(subexpr, pset)
-        adfdict.update({pset.name : func})
+    for subexpr in reversed(expr):
+        subexpr.pset.context.update(adfdict)
+        func = lambdify(subexpr, subexpr.pset)
+        adfdict.update({subexpr.pset.__name__ : func})
     return func
 
 ######################################
-# GP Program generation functions    #
+# GP Program generation functions #
 ######################################
 def genFull(pset, min_, max_, type_=__type__):
     """Generate an expression where each leaf has a the same depth 
@@ -530,10 +473,10 @@ def generate(pset, min_, max_, condition, type_=__type__):
                 term = random.choice(pset.terminals[type_])
             except IndexError:
                 _, _, traceback = sys.exc_info()
-                raise IndexError, "The gp.generate function tried to add "\
+                raise "The gp.generate function tried to add "\
                                   "a terminal of type '%s', but there is "\
-                                  "none available." % (type_,), traceback
-            if isclass(term):
+                                  "none available." % (type_,)
+            if isinstance(term, EphemeralGenerator):
                 term = term()
             expr.append(term)
         else:
@@ -541,19 +484,18 @@ def generate(pset, min_, max_, condition, type_=__type__):
                 prim = random.choice(pset.primitives[type_])
             except IndexError:
                 _, _, traceback = sys.exc_info()                
-                raise IndexError, "The gp.generate function tried to add "\
+                raise "The gp.generate function tried to add "\
                                   "a primitive of type '%s', but there is "\
-                                  "none available." % (type_,), traceback                
+                                  "none available." % (type_,)              
             expr.append(prim)
             for arg in reversed(prim.args):
-                stack.append((depth+1, arg))
+                stack.append((depth + 1, arg))
     return expr
 
 
 ######################################
-# GP Crossovers                      #
+# GP Crossovers #
 ######################################
-
 def cxOnePoint(ind1, ind2):
     """Randomly select in each individual and exchange each subtree with the
     point as root between each individual.
@@ -650,9 +592,9 @@ def cxOnePointLeafBiased(ind1, ind2, termpb):
 
 
 ######################################
-# GP Mutations                       #
+# GP Mutations #
 ######################################
-def mutUniform(individual, expr, pset):
+def mutUniform(individual, expr):
     """Randomly select a point in the tree *individual*, then replace the
     subtree at that point as a root by the expression generated using method
     :func:`expr`.
@@ -665,11 +607,11 @@ def mutUniform(individual, expr, pset):
     index = random.randrange(len(individual))
     slice_ = individual.searchSubtree(index)
     type_ = individual[index].ret
-    individual[slice_] = expr(pset=pset, type_=type_)
+    individual[slice_] = expr(pset=individual.pset, type_=type_)
     return individual,
 
 
-def mutNodeReplacement(individual, pset):
+def mutNodeReplacement(individual):
     """Replaces a randomly chosen primitive from *individual* by a randomly
     chosen primitive with the same number of arguments from the :attr:`pset`
     attribute of the individual.
@@ -682,10 +624,11 @@ def mutNodeReplacement(individual, pset):
 
     index = random.randrange(1, len(individual))
     node = individual[index]
+    pset = individual.pset
 
     if node.arity == 0: # Terminal
         term = random.choice(pset.terminals[node.ret])
-        if isclass(term):
+        if isinstance(term, EphemeralGenerator):
             term = term()
         individual[index] = term 
     else:   # Primitive
@@ -717,11 +660,12 @@ def mutEphemeral(individual, mode):
             ephemerals_idx = (random.choice(ephemerals_idx),)
 
         for i in ephemerals_idx:
-            individual[i] = individual[i].__class__()
-    
+            eph = individual[i]
+            individual[i] = Ephemeral(eph.func, eph.ret)
+            
     return individual,
 
-def mutInsert(individual, pset):
+def mutInsert(individual):
     """Inserts a new branch at a random position in *individual*. The subtree
     at the chosen position is used as child node of the created subtree, in
     that way, it is really an insertion rather than a replacement. Note that
@@ -732,6 +676,7 @@ def mutInsert(individual, pset):
     :param individual: The normal or typed tree to be mutated.
     :returns: A tuple of one tree.
     """
+    pset = individual.pset
     index = random.randrange(len(individual))
     node = individual[index]
     slice_ = individual.searchSubtree(index)
@@ -751,11 +696,11 @@ def mutInsert(individual, pset):
     for i, arg_type in enumerate(new_node.args):
         if i != position:
             term = choice(pset.terminals[arg_type])
-            if isclass(term):
+            if isinstance(term, EphemeralGenerator):
                 term = term()            
             new_subtree[i] = term
     
-    new_subtree[position:position+1] = individual[slice_]
+    new_subtree[position:position + 1] = individual[slice_]
     new_subtree.insert(0, new_node)
     individual[slice_] = new_subtree
     return individual,
@@ -779,8 +724,8 @@ def mutShrink(individual):
     if len(iprims) != 0:
         index, prim = random.choice(iprims)
         arg_idx = random.choice([i for i, type_ in enumerate(prim.args) if type_ == prim.ret])
-        rindex = index+1
-        for _ in range(arg_idx+1):
+        rindex = index + 1
+        for _ in range(arg_idx + 1):
             rslice = individual.searchSubtree(rindex)
             subtree = individual[rslice]
             rindex += len(subtree)
@@ -791,9 +736,8 @@ def mutShrink(individual):
     return individual,
 
 ######################################
-# GP bloat control decorators        #
+# GP bloat control decorators #
 ######################################
-
 def staticDepthLimit(max_depth):
     """Implement a static limit on the depth of a GP tree, as defined by Koza
     in [Koza1989]. It may be used to decorate both crossover and mutation
@@ -820,7 +764,6 @@ def staticDepthLimit(max_depth):
 
     """
     def decorator(func):
-        @wraps(func)
         def wrapper(*args, **kwargs):
             keep_inds = [copy.deepcopy(ind) for ind in args]
             new_inds = list(func(*args, **kwargs))
@@ -842,7 +785,6 @@ def staticSizeLimit(max_size):
     :func:`~deap.base.Toolbox.decorate`
     """
     def decorator(func):
-        @wraps(func)
         def wrapper(*args, **kwargs):
             keep_inds = [copy.deepcopy(ind) for ind in args]
             new_inds = list(func(*args, **kwargs))
@@ -854,7 +796,7 @@ def staticSizeLimit(max_size):
     return decorator
 
 def graph(expr):
-    """Construct the graph of a tree expression. The tree expression must be
+    """Construct the graph of an tree expression. The tree expression must be
     valid. It returns in order a node list, an edge list, and a dictionary of
     the per node labels. The node are represented by numbers, the edges are
     tuples connecting two nodes (number), and the labels are values of a

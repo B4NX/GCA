@@ -34,13 +34,13 @@ def cone(individual, position, height, width):
     """
     value = 0.0
     for x, p in zip(individual, position):
-        value += (x - p)**2
+        value += (x - p) ** 2
     return height - width * math.sqrt(value)
 
 def sphere(individual, position, height, width):
     value = 0.0
     for x, p in zip(individual, position):
-        value += (x - p)**2
+        value += (x - p) ** 2
     return height * value
 
 def function1(individual, position, height, width):
@@ -51,7 +51,7 @@ def function1(individual, position, height, width):
     """
     value = 0.0
     for x, p in zip(individual, position):
-        value += (x - p)**2
+        value += (x - p) ** 2
     return height / (1 + width * value)
 
 class MovingPeaks:
@@ -190,7 +190,7 @@ class MovingPeaks:
         """Returns all visible maximums value and position sorted with the
         global maximum first.
         """
-        # The maximums are at the peaks position but might be swallowed by 
+        # The maximums are at the peaks position but might be swallowed by
         # other peaks
         maximums = list()
         for func, pos, height, width in zip(self.peaks_function,
@@ -225,7 +225,8 @@ class MovingPeaks:
             self._error = min(self._error, abs(fitness - self._optimum))
             self._offline_error += self._error
 
-            # We exausted the number of evaluation, change peaks for the next one.
+            # We exausted the number of evaluation, change peaks for the next
+            # one.
             if self.period > 0 and self.nevals % self.period == 0:
                 self.changePeaks()
         
@@ -245,7 +246,8 @@ class MovingPeaks:
             u = self.random.random()
             r = self.maxpeaks - self.minpeaks
             if u < 0.5:
-                # Remove n peaks or less depending on the minimum number of peaks
+                # Remove n peaks or less depending on the minimum number of
+                # peaks
                 u = self.random.random()
                 n = min(npeaks - self.minpeaks, int(round(r * u * self.number_severity)))
                 for i in range(n):
@@ -269,16 +271,16 @@ class MovingPeaks:
         for i in range(len(self.peaks_function)):
             # Change peak position
             shift = [self.random.random() - 0.5 for _ in range(len(self.peaks_position[i]))]
-            shift_length = sum(s**2 for s in shift)
+            shift_length = sum(s ** 2 for s in shift)
             shift_length = self.move_severity / math.sqrt(shift_length) if shift_length > 0 else 0
             
             shift = [shift_length * (1.0 - self.lambda_) * s \
                      + self.lambda_ * c for s, c in zip(shift, self.last_change_vector[i])]
             
-            shift_length = sum(s**2 for s in shift)
+            shift_length = sum(s ** 2 for s in shift)
             shift_length = self.move_severity / math.sqrt(shift_length) if shift_length > 0 else 0
 
-            shift = [s*shift_length for s in shift]
+            shift = [s * shift_length for s in shift]
             
             new_position = []
             final_shift = []
@@ -377,10 +379,10 @@ def diversity(population):
     for x in population:
         d = [di + xi for di, xi in zip(d, x)]
     d = [di / nind for di in d]
-    return math.sqrt(sum((di - xi)**2 for x in population for di, xi in zip(d, x)))
+    return math.sqrt(sum((di - xi) ** 2 for x in population for di, xi in zip(d, x)))
 
 if __name__ == "__main__":
     mpb = MovingPeaks(dim=2, npeaks=[1,1,10], number_severity=0.1)
-    print mpb.maximums()
+    print(mpb.maximums())
     mpb.changePeaks()
-    print mpb.maximums()
+    print(mpb.maximums())

@@ -1,3 +1,6 @@
+.. _examples:
+
+========
 Examples
 ========
 
@@ -18,7 +21,6 @@ Genetic Algorithm (GA)
 	ga_onemax_short
 	ga_knapsack
 	coev_coop
-	checkpoint
 
 .. _gpexamples:
 
@@ -62,3 +64,10 @@ Estimation of Distribution Algorithms (EDA)
    
    eda
 
+Distributed Task Manager (DTM)
+------------------------------
+.. toctree::
+	:maxdepth: 1
+
+	dtm_pi
+	dtm_ga_onemax

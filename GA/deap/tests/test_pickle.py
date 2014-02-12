@@ -8,8 +8,6 @@ from test import test_support
 
 sys.path.append("..")
 
-import numpy
-
 import creator
 import base
 import gp
@@ -24,7 +22,7 @@ class Pickling(unittest.TestCase):
         creator.create("FitnessMax", base.Fitness, weights=(1.0,))
         creator.create("IndList", list, fitness=creator.FitnessMax)
         creator.create("IndArray", array.array,  typecode='f', fitness=creator.FitnessMax)
-        creator.create("IndTree", gp.PrimitiveTree, fitness=creator.FitnessMax)
+        creator.create("IndTree", base.Tree, fitness=creator.FitnessMax)
         self.toolbox = base.Toolbox()
         self.toolbox.register("func", func)
         self.toolbox.register("lambda_func", lambda: "True")
@@ -53,7 +51,7 @@ class Pickling(unittest.TestCase):
         self.failUnlessEqual(ind.fitness, ind_l.fitness, "Unpickled individual fitness != pickled individual fitness")
     
     def test_pickle_tree(self):
-        ind = creator.IndTree([operator.add, 1, 2])
+        ind = creator.IndTree(["+", 1, 2])
         ind.fitness.values = (1.0,)
         ind_s = pickle.dumps(ind)
         ind_l = pickle.loads(ind_s)
@@ -82,18 +80,14 @@ class Pickling(unittest.TestCase):
         self.failUnlessEqual(pop[2], pop_l[2], "Unpickled individual list != pickled individual list")
         self.failUnlessEqual(pop[2].fitness, pop_l[2].fitness, "Unpickled individual fitness != pickled individual fitness")
     
-    def test_pickle_logbook(self):
+    def test_pickle_statistics(self):
         stats = tools.Statistics()
-        logbook = tools.Logbook()
+        stats.register("Mean", tools.mean)
+        stats.update([1,2,3,4,5,6,8,9,10])
+        stats_s = pickle.dumps(stats)
+        stats_r = pickle.loads(stats_s)
 
-        stats.register("mean", numpy.mean)
-        record = stats.compile([1,2,3,4,5,6,8,9,10])
-        logbook.record(**record)
-
-        stats_s = pickle.dumps(logbook)
-        logbook_r = pickle.loads(stats_s)
-
-        self.failUnlessEqual(logbook, logbook_r, "Unpickled logbook != pickled logbook")
+        self.failUnlessEqual(stats.Mean, stats_r.Mean, "Unpickled statistics != pickled statistics")
 
 
     if not sys.version_info < (2, 7):

@@ -139,9 +139,9 @@ Selection
 
 .. autofunction:: deap.tools.selTournamentDCD
 
-.. autofunction:: deap.tools.sortNondominated
+.. autofunction:: sortFastND
 
-.. autofunction:: deap.tools.sortLogNondominated
+.. autofunction:: assignCrowdingDist
 
 Bloat control
 +++++++++++++
@@ -157,17 +157,16 @@ Migration
 
 Statistics
 ----------
-.. autoclass:: deap.tools.Statistics([key])
+.. autoclass:: deap.tools.Statistics([key][, n])
 	:members:
 
-.. autoclass:: deap.tools.MultiStatistics(**kargs)
-	:members:
+.. autofunction:: deap.tools.mean
 
-Logbook
--------
+.. autofunction:: deap.tools.median
 
-.. autoclass:: deap.tools.Logbook
-   :members:
+.. autofunction:: deap.tools.var
+
+.. autofunction:: deap.tools.std
 
 Hall-Of-Fame
 ------------
@@ -185,6 +184,27 @@ Hall-Of-Fame
 
    .. automethod:: deap.tools.ParetoFront.update
 
+Evolution Logger
+----------------
+.. autoclass:: deap.tools.EvolutionLogger([col_names][, precision])
+
+   .. automethod:: deap.tools.EvolutionLogger.logHeader
+
+   .. automethod:: deap.tools.EvolutionLogger.logGeneration([stats[, index]][, data[, ...]])
+   
+..   .. autoattribute:: deap.tools.EvolutionLogger.output
+
+Checkpoint
+----------
+.. autoclass:: deap.tools.Checkpoint()
+   
+   .. automethod:: deap.tools.Checkpoint.dump(filestream)
+   
+   .. automethod:: deap.tools.Checkpoint.load(filestream)
+   
+   .. automethod:: deap.tools.Checkpoint.add(name, object[, key])
+   
+   .. automethod:: deap.tools.Checkpoint.remove(name[, ...])
 
 History
 -------

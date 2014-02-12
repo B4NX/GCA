@@ -22,11 +22,6 @@ div.related:first-child {
     border-bottom: 1px solid #ccc;
 }
 
-div.sidebar {
-    background-color: #eeeeee;
-}
-
-
 div.sphinxsidebar {
     background-color: #eeeeee;
     border-radius: 5px;
@@ -96,10 +91,6 @@ div.body div.impl-detail > p {
 
 div.body div.seealso {
     border: 1px solid #dddd66;
-}
-
-a.reference em {
-    font-style: normal;
 }
 
 div.body a {
