@@ -5,14 +5,14 @@
 #Vadim Kataev 2005
 #vkataev at gmail.com
 
+#Modifications by Andrew Chronister and Nikko Rush
+#2014
+
 import sys,pygame, random
 from pygame.locals import *
 
-#import psyco
-#psyco.full()
-
-SCREEN_WIDTH  = 1280
-SCREEN_HEIGHT = 1024
+CA_SCREEN_WIDTH  = 1280
+CA_SCREEN_HEIGHT = 1024
 
 rows = [[1],]
 color_cell = (45,45,45)
@@ -22,7 +22,7 @@ rule_110 = ((1,1,1,0), (1,1,0,1), (1,0,1,1), (1,0,0,0), (0,1,1,1), (0,1,0,1), (0
 rule_30 = ((1,1,1,0), (1,1,0,0), (1,0,1,0), (1,0,0,1), (0,1,1,1), (0,1,0,1), (0,0,1,1), (0,0,0,0))
 
 sy = 0
-x_half = SCREEN_WIDTH / 2
+x_half = CA_SCREEN_WIDTH / 2
 
 fixedwidth = True
 
@@ -83,7 +83,7 @@ def update_screen():
             screen.set_at((int(x),sy), color_background)
         x+=1
     sy+=1
-    if sy == SCREEN_HEIGHT:
+    if sy == CA_SCREEN_HEIGHT:
         sy = 0
 #		screen.fill(color_background)
 
@@ -92,30 +92,33 @@ def update_rows():
     rows.append(build_next_row(rows[-1]))
     rows = rows[1:]
     rows[-1] = trim_list(rows[-1])
-    update_screen()
 
 def trim_list(row):
     nrow = row[:]
-    excess = int((len(nrow) - (SCREEN_WIDTH - 4)) / 2)
+    excess = int((len(nrow) - (CA_SCREEN_WIDTH - 4)) / 2)
     nrow = row[excess:-excess]
     nrow = [row[-(excess - 1)]] + nrow + [row[excess - 1]]
     return nrow
 
+def getLastRow():
+    return rows[-1]
+
 def init():
-    global background, screen, rows
+    global background, screen
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((CA_SCREEN_WIDTH,CA_SCREEN_HEIGHT))
     pygame.display.set_caption("Cellular automata")
     screen.fill(color_background)
 
+def initCA():
+    global rows
     rows = seed_rows()
 
 ###REWRITE ME for GA-controlled initial conditions
 def seed_rows():
     return [[random.randint(0,1) for i in range(1279)],]
  
-def main():
-    angle=0
+def CAmain():
     while 1:
             for event in pygame.event.get():
                     if event.type==pygame.QUIT:
@@ -126,7 +129,5 @@ def main():
                             sys.exit()
 
             update_rows()
+            update_screen()
             pygame.display.flip()
-
-init()
-main()
