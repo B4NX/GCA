@@ -12,6 +12,11 @@
     <OutputPath>.</OutputPath>
     <Name>GCA</Name>
     <RootNamespace>GCA</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments />
+    <InterpreterPath />
+    <InterpreterArguments />
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -561,7 +566,6 @@
     </Compile>
     <Compile Include="GCA.py" />
     <Compile Include="pathfind.py" />
-    <Compile Include="Wat.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CA\" />
