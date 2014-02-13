@@ -4,20 +4,28 @@ okay
 
 so
 
-Here's what needs to happen.
+Here's what needs to happen. TWO POINT OH
 
-First, let's get the CA working for sure. We want to test rule 90, rule 30, maybe a couple others. The interesting 
-ones. One of us should check which are the Class-IV ones.
+there's two control heads in the CA
+the first shifts the write head on the message to be encoded forward or backward
+and the second shifts a bit up or down
 
-Then, we want to hook that up to a pathfinding thing. Set it up so that certain cell(s) control a movement head, 
-which can MOVE in the direction its facing or TURN to the right. This isn't going to work very well at all, but
-it will look fancy. 
+you output the encoded message along with (a hash?) of the initial conditions used in the automaton and the rule #
+you also need to know where the control heads started 
+(they should be as far apart as possible, since the ends leak into each other that means one on the edge and one
+in the middle)
+and how many generations you used (more generations = more secure crypto)
 
-Finally, we hook up the GA to the intial conditions for the CA. The GA keeps track of the CA seed (the dots which
-are initially 1 or 0) and uses the taxicab distance from the target after a predefined number of moves as its heuristic. 
-This will select for things that don't necessarily find the best path, but ones that get the closest to the target cell.
-We can acknowledge this shortcoming in our paper. It will sound fancy. 
-If the pathfinding head reaches the target within the move limit, that will also end it. Because the problem was solved.
 
-I'm putting this here so that you can be somewhat autonomous while I'm gone over midwinter break. We need to get our
-asses in gear.
+to unencrypt, you have to know the initial conditions and the rule, and then run it backwards
+(if control heads are nonconstant, you'll have to know those as well - also # of generations. But those might be constant)
+this requires applying the CA rules in reverse (accounting for weird shit I did to clip it to a certain size)
+for the correct number of generations.
+
+
+message is obvs a string of characters, which are represented by 2 bytes I think? That's what they are in C anyway
+so when you shift a bit, you literally just add or subtract one. Unless you can think of a better way.
+
+Maybe if you xor it with a certain number of bits every generation? Something fancy like that
+
+okay
