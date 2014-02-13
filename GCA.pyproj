@@ -22,9 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CA\CA.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="CA.py" />
     <Compile Include="GA\build\lib\deap\algorithms.py">
       <SubType>Code</SubType>
     </Compile>
@@ -564,7 +562,6 @@
     <Compile Include="Wat.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CA\" />
     <Folder Include="GA\" />
     <Folder Include="GA\build\" />
     <Folder Include="GA\build\lib\" />

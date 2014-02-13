@@ -1,5 +1,4 @@
-import pygame, sys, random
-from pygame.locals import *
+import pygame, sys, random, CA
 
 SCREEN_WIDTH  = 600
 SCREEN_HEIGHT = 600
@@ -28,6 +27,8 @@ FinderTrail = [FinderHeadPosition,]
 
 finderIcon = pygame.image.load("finderarrow.png")
 finderIcon = pygame.transform.scale(finderIcon, (CELL_WIDTH, CELL_HEIGHT))
+
+controlIndex = 567 #Evolve with GA?
 
 #returns True if success, False if failure (out of bounds or hit a wall)
 def MoveFinder():
@@ -63,8 +64,11 @@ def drawFinder():
     #mainSurface.fill(color_finder, (FinderHeadPosition[0] * CELL_WIDTH, FinderHeadPosition[1] * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT))
     mainSurface.blit(pygame.transform.rotate(finderIcon, FinderHeadDirection[0]), (FinderHeadPosition[0] * CELL_WIDTH, FinderHeadPosition[1] * CELL_HEIGHT))
 
+#Replace with input from CA
 def update():
-    if (random.randint(0, 1) == 0):
+    CA.update_rows()
+    row = CA.getLastRow()
+    if (row[controlIndex] == 0):
         MoveFinder()
     else:
         TurnFinder()
@@ -76,6 +80,8 @@ def init():
     pygame.display.set_caption("Pathfing")
     mainSurface.fill(color_background)
     drawGrid()
+
+    CA.initCA()
 
 def main():
     while 1:
