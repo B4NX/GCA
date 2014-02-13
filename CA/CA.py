@@ -49,6 +49,7 @@ def build_next_row(prerow):
             else:
                 row.append(prerow[0])
             continue
+
         if i == 0:
             left = prerow[-2]
         else:
@@ -58,6 +59,16 @@ def build_next_row(prerow):
             right = prerow[1]
         else:
             right = prerow[i+1]
+
+        cell = rule(left, right, center, rule_110)
+        
+        if (fixedwidth):
+            if (i == 0): 
+                row[0] = cell
+                continue
+            if (i == l - 1): 
+                row[l - 2] = cell
+                continue
         row.append(rule(left, right, center, rule_110))
     return row
 
@@ -85,7 +96,7 @@ def update_rows():
 
 def trim_list(row):
     nrow = row[:]
-    excess = int((len(nrow) - 400) / 2)
+    excess = int((len(nrow) - (SCREEN_WIDTH - 4)) / 2)
     nrow = row[excess:-excess]
     nrow = [row[-(excess - 1)]] + nrow + [row[excess - 1]]
     return nrow
