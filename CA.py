@@ -8,13 +8,14 @@
 #Modifications by Andrew Chronister and Nikko Rush
 #2014
 
-import sys,pygame, random, testCA
+import sys,pygame, random, testCA, CAslice
 from pygame.locals import *
+from CAslice import Slice
 
 CA_SCREEN_WIDTH  = 400
 CA_SCREEN_HEIGHT = 800
 
-rows = [[1],]
+rows = []
 steps = 0
 
 color_cell = (45,45,45)
@@ -34,124 +35,65 @@ def makeRule(ruleNum):
     rule = ((1,1,1,int(digits[0])), (1,1,0,int(digits[1])), (1,0,1,int(digits[2])), (1,0,0,int(digits[3])), (0,1,1,int(digits[4])), (0,1,0,int(digits[5])), (0,0,1,int(digits[6])), (0,0,0,int(digits[7])))
     return rule
 
-def rule(left, center, right, rule_set):
-    for r in rule_set:
-        if left == r[0] and center == r[1] and right == r[2]:
-            return r[3]
-    print("ERROR in Rule")
-    sys.exit()
-
 def rrule(top, left, center, right, rule_set):
     for r in rule_set:
         if left == r[0] and center == r[1] and right == r[2]:
             if (top == 0): return r[3]
             else: return 1 - r[3]
 
-def r_build_next_row(prerow, preprerow, step = 0):
+def r_build_next_row(prerow, preprerow, step = 0, trim = -1):
     global ruleSet
-    row = []
+    assert isinstance(prerow, Slice) and isinstance(preprerow, Slice)
+    row = Slice()
     l = len(prerow)
-    for i in range(-1,l+1 if step >= 0 else l - 1):
-        if i == -1:
-            row.append(0)
-            continue
-        if i == l:
-            row.append(0)
-            continue
 
-        if i == 0: left = 0
-        else: left = prerow[i-1]
-        center = prerow[i]
-        if i == (l-1): right = 0
-        else: right = prerow[i+1]
-
-        if ((i == 0 or i == (l - 1)) and step >= 0):
-            top = 0
-        else:
-            top = preprerow[i - 1]
-
-        row.append(rrule(top, left, center, right, ruleSet))
+    def applyRuleTo(index):
+        left, right = prerow.getNeighbors(index)
+        try: center = prerow[index]
+        except IndexError: center = 0
+        try: top = preprerow[index]
+        except IndexError: top = 0
+        return rrule(top, left, center, right, ruleSet)
+    
+    cellRange = tuple(map(lambda x, y: x + y, prerow.range(), (-2, 2)))  # if (step <= 0) else (0, 0)))
+    for i in range(1, cellRange[1]):
+        row.append(applyRuleTo(i))
+    for i in range(1, -cellRange[0]):
+        row.prepend(applyRuleTo(-i))
+    row.setCenterIndex(applyRuleTo(0))
+    if (trim > 0):
+        row.trimTo(trim)
     return row
-
-def build_next_row(prerow):
-    global ruleSet
-    row = []
-    l = len(prerow)
-    for i in range(-1,l+1):
-        if i == -1:
-            if (not(fixedwidth)):
-                row.append(0)
-            else:
-                row.append(prerow[-1])
-            continue
-        if i == l:
-            if (not(fixedwidth)):
-                row.append(0)
-            else:
-                row.append(prerow[0])
-            continue
-
-        if i == 0:
-            left = prerow[-2]
-        else:
-            left = prerow[i-1]
-        center = prerow[i]
-        if i == (l-1):
-            right = prerow[1]
-        else:
-            right = prerow[i+1]
-
-        cell = rule(left, right, center, ruleSet)
-        
-        if (fixedwidth):
-            if (i == 0): 
-                row[0] = cell
-                continue
-            if (i == l - 1): 
-                row[l - 2] = cell
-                continue
-        row.append(cell)
-    return row
-
-#def build_prev_row(nextrow):
-
 
 def update_screen(r):
     global sy, x_half
-    x = x_half - len(r)/2
-    for elem in r:
-        if elem:
-            screen.set_at((int(x),sy), color_cell)
+    rng = r.range()
+    for x in range(rng[0], rng[1]):
+        try: val = r[x]
+        except IndexError:
+            val = 0
+        if val:
+            screen.set_at((int(x + x_half),sy), color_cell)
         else:
-            screen.set_at((int(x),sy), color_background)
+            screen.set_at((int(x + x_half),sy), color_background)
         x+=1
     sy+=1
     if sy == CA_SCREEN_HEIGHT:
         sy = 0
 #		screen.fill(color_background)
 
-def update_rows():
-    global rows, steps
-    rows.append(r_build_next_row(rows[-1], rows[-2]))
-    rows = rows[-2:]
-    steps += 1
-    #rows[-1] = trim_list(rows[-1])
-
 def r_update_rows():
     global rows, steps
-    rows.append(r_build_next_row(rows[-1], rows[-2], steps))
+    rows.append(r_build_next_row(rows[-1], rows[-2], steps, 100))
     rows = rows[-2:]
     steps += 1
-
-def trim_list(row):
-    nrow = row[:]
-    excess = int((len(nrow) - (CA_SCREEN_WIDTH - 4)) / 2)
-    nrow = row[excess:-excess]
-    nrow = [row[-(excess - 1)]] + nrow + [row[excess - 1]]
-    return nrow
 
 def getLastRow():
     return rows[-1]
+
+def update():
+    r_update_rows()
+    return getLastRow()
 
 def init():
     global background, screen
@@ -160,32 +102,23 @@ def init():
     pygame.display.set_caption("Cellular automata")
     screen.fill(color_background)
     r_initCA()
+    update_screen(rows[0])
+    update_screen(rows[1])
 
-def initCA():
-    global rows, ruleSet
-    ruleSet = makeRule(ruleNum)
-    irow = seed_rows()
-    rows = [irow, irow]
-    steps = 0
-
-def r_initCA():
-    global rows, ruleSet
+def r_initCA(seed = [1], stepCount = 500):
+    global rows, ruleSet, steps
     ruleSet = makeRule(ruleNum)
     irow = r_seed_rows()
-    rows = [irow[1], irow[0]]
-    steps = -5
+    rows = [Slice(seed), Slice(seed)] #step 5, then step 4
+    steps = -stepCount
 
-###REWRITE ME for GA-controlled initial conditions
-def seed_rows():
-    #return [random.randint(0,1) * random.randint(0,1) for i in range(CA_SCREEN_WIDTH - 4)]
-    return [1] #[0 for i in range(int(CA_SCREEN_WIDTH / 2 - 1))] + [1] + [0 for i in range(int(CA_SCREEN_WIDTH / 2 - 1))]
-
+###REWRITE ME for crypto-controlled initial conditions
 def r_seed_rows():
-    return (testCA.iRow1, testCA.iRow2)
+    return (testCA.initialRow1, testCA.initialRow2)
  
 def CAmain():
     global rows, steps
-    while 1:
+    while steps <= 0:
             for event in pygame.event.get():
                     if event.type==pygame.QUIT:
                             pygame.quit()
@@ -197,12 +130,4 @@ def CAmain():
 
             r_update_rows()
             update_screen(rows[-1])
-            if (steps == 5): 
-                print(rows[-2])
-                print(rows[-1])
             pygame.display.flip()
-
-init()
-update_screen(rows[0])
-update_screen(rows[1])
-CAmain()
