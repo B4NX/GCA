@@ -3,15 +3,18 @@
 #Cellular Automata Visualiser
 #(inspired by Wolfram's New Kind of Science)
 #Vadim Kataev 2005
-#vkataev at gmail.com
+#vkataev@gmail.com
 
 #Modifications by Andrew Chronister and Nikko Rush
 #2014
 
-import sys,pygame, random, testCA
+import sys
+import pygame
+import random
+import testCA
 from pygame.locals import *
 
-CA_SCREEN_WIDTH  = 400
+CA_SCREEN_WIDTH = 400
 CA_SCREEN_HEIGHT = 800
 
 rows = [[1],]
@@ -47,11 +50,11 @@ def rrule(top, left, center, right, rule_set):
             if (top == 0): return r[3]
             else: return 1 - r[3]
 
-def r_build_next_row(prerow, preprerow, step = 0):
+def r_build_next_row(prerow, preprerow, step=0):
     global ruleSet
     row = []
     l = len(prerow)
-    for i in range(-1,l+1 if step >= 0 else l - 1):
+    for i in range(-1,l + 1 if step >= 0 else l - 1):
         if i == -1:
             row.append(0)
             continue
@@ -60,10 +63,10 @@ def r_build_next_row(prerow, preprerow, step = 0):
             continue
 
         if i == 0: left = 0
-        else: left = prerow[i-1]
+        else: left = prerow[i - 1]
         center = prerow[i]
-        if i == (l-1): right = 0
-        else: right = prerow[i+1]
+        if i == (l - 1): right = 0
+        else: right = prerow[i + 1]
 
         if ((i == 0 or i == (l - 1)) and step >= 0):
             top = 0
@@ -77,7 +80,7 @@ def build_next_row(prerow):
     global ruleSet
     row = []
     l = len(prerow)
-    for i in range(-1,l+1):
+    for i in range(-1,l + 1):
         if i == -1:
             if (not(fixedwidth)):
                 row.append(0)
@@ -94,12 +97,12 @@ def build_next_row(prerow):
         if i == 0:
             left = prerow[-2]
         else:
-            left = prerow[i-1]
+            left = prerow[i - 1]
         center = prerow[i]
-        if i == (l-1):
+        if i == (l - 1):
             right = prerow[1]
         else:
-            right = prerow[i+1]
+            right = prerow[i + 1]
 
         cell = rule(left, right, center, ruleSet)
         
@@ -114,11 +117,9 @@ def build_next_row(prerow):
     return row
 
 #def build_prev_row(nextrow):
-
-
 def update_screen(r):
     global sy, x_half
-    x = x_half - len(r)/2
+    x = x_half - len(r) / 2
     for elem in r:
         if elem:
             screen.set_at((int(x),sy), color_cell)
@@ -129,14 +130,12 @@ def update_screen(r):
     if sy == CA_SCREEN_HEIGHT:
         sy = 0
 #		screen.fill(color_background)
-
 def update_rows():
     global rows, steps
     rows.append(r_build_next_row(rows[-1], rows[-2]))
     rows = rows[-2:]
     steps += 1
     #rows[-1] = trim_list(rows[-1])
-
 def r_update_rows():
     global rows, steps
     rows.append(r_build_next_row(rows[-1], rows[-2], steps))
@@ -177,9 +176,10 @@ def r_initCA():
 
 ###REWRITE ME for GA-controlled initial conditions
 def seed_rows():
-    #return [random.randint(0,1) * random.randint(0,1) for i in range(CA_SCREEN_WIDTH - 4)]
-    return [1] #[0 for i in range(int(CA_SCREEN_WIDTH / 2 - 1))] + [1] + [0 for i in range(int(CA_SCREEN_WIDTH / 2 - 1))]
-
+    #return [random.randint(0,1) * random.randint(0,1) for i in
+    #range(CA_SCREEN_WIDTH - 4)]
+    return [1] #[0 for i in range(int(CA_SCREEN_WIDTH / 2 - 1))] + [1] + [0 for i in
+               #range(int(CA_SCREEN_WIDTH / 2 - 1))]
 def r_seed_rows():
     return (testCA.iRow1, testCA.iRow2)
  
@@ -187,17 +187,17 @@ def CAmain():
     global rows, steps
     while 1:
             for event in pygame.event.get():
-                    if event.type==pygame.QUIT:
+                    if event.type == pygame.QUIT:
                             pygame.quit()
                             sys.exit()
-                    if event.type==pygame.KEYDOWN:
+                    if event.type == pygame.KEYDOWN:
                         pass
                             #pygame.quit()
                             #sys.exit()
 
             r_update_rows()
             update_screen(rows[-1])
-            if (steps == 5): 
+            if (steps == 5):
                 print(rows[-2])
                 print(rows[-1])
             pygame.display.flip()
