@@ -44,9 +44,15 @@ def decryptMessage(message:str, seed, steps:int):
     ca_enc_head = 4 + seedlen // 2
 
     d = dlast = []
-    while (CA.steps < -1):
+    while (CA.steps < 3):
         dlast = d
         d = CA.update()
+        if (d[ca_m_head] == 1):
+            m_head += 1
+            if (m_head >= len(m_data)):
+                m_head = 0
+        else:
+            pass #don't move m_head
 
     CA.rows = [d, dlast]
     CA.steps = -steps
@@ -69,12 +75,6 @@ def decryptMessage(message:str, seed, steps:int):
 
     #return str([chr(i) for i in m_data]).replace(", ","").replace("\'","")[1:-1]
     return str(["%02X"%(i) for i in m_data]).replace(", ",":").replace("\'","")[1:-1]
-
-#def decryptMessage(message, seed, steps):
-
-#testSeed = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
-#print(encryptMessage("Hello world", testSeed, 100))
-#print(str(["%02X"%(ord(i)) for i in "Hello world"]).replace(", ",":").replace("\'","")[1:-1])
 
 def HexToBinary(text:str):
     """Turns a string of hex into an array of binary numbers"""
