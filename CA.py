@@ -3,16 +3,20 @@
 #Cellular Automata Visualiser
 #(inspired by Wolfram's New Kind of Science)
 #Vadim Kataev 2005
-#vkataev at gmail.com
+#vkataev@gmail.com
 
 #Modifications by Andrew Chronister and Nikko Rush
 #2014
 
-import sys,pygame, random, testCA, CAslice
+import sys
+import pygame
+import random
+import testCA
+import CAslice
 from pygame.locals import *
 from CAslice import Slice
 
-CA_SCREEN_WIDTH  = 400
+CA_SCREEN_WIDTH = 400
 CA_SCREEN_HEIGHT = 800
 
 rows = []
@@ -112,7 +116,7 @@ def r_initCA(seed = [1], stepCount = 500):
     rows = [Slice(seed), Slice(seed)] #step 5, then step 4
     steps = -stepCount
 
-###REWRITE ME for crypto-controlled initial conditions
+###REWRITE ME for GA-controlled initial conditions
 def r_seed_rows():
     return (testCA.initialRow1, testCA.initialRow2)
  
@@ -120,10 +124,10 @@ def CAmain():
     global rows, steps
     while steps <= 0:
             for event in pygame.event.get():
-                    if event.type==pygame.QUIT:
+                    if event.type == pygame.QUIT:
                             pygame.quit()
                             sys.exit()
-                    if event.type==pygame.KEYDOWN:
+                    if event.type == pygame.KEYDOWN:
                         pass
                             #pygame.quit()
                             #sys.exit()
