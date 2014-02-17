@@ -8,7 +8,7 @@ def encryptMessage(message:str, seed, steps:int):
     m_data = [ord(i) for i in m_data]
     m_head = 0
     ca_m_head = 4
-    ca_enc_head = len(message) - 9
+    ca_enc_head = len(seed) - 9
 
     while (CA.steps <= 0):
         d = CA.update()
@@ -20,11 +20,11 @@ def encryptMessage(message:str, seed, steps:int):
             pass #don't move m_head
         b = "0b"
         r = d.range()
-        for i in range(r[0], r[1]):
+        for i in range(r[0] + ca_enc_head, r[0] + ca_enc_head + 8):
             b += str(d[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
 
-    return str([chr(i) for i in m_data]).replace(", ","")[1:-1]
+    return str(["0" * (8 - len(format(i, "b"))) + format(i, "b") for i in m_data]).replace(", ","").replace("\'","")[1:-1]
 #def decryptMessage(message, seed, steps):
 testSeed = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
 print(encryptMessage("Hello world", testSeed, 100))
