@@ -5,13 +5,22 @@ class Slice:
     # b4 b3 b2 b1 b0 c a0 a1 a2 a3 a4 etc
     #Special built for CA usage
     def __init__(self, data = []):
-        assert isinstance(data, list)
-        if (len(data) > 0):
-            center = math.ceil(len(data) // 2)
-            self._before = data[:center]
-            self._before.reverse()
-            self._after = data[center + 1:]
-            self._center = data[center]
+        assert isinstance(data, list) or isinstance(data, Slice)
+        if (isinstance(data, list)):
+            if (len(data) > 0):
+                center = math.ceil(len(data) // 2)
+                self._before = data[:center]
+                self._before.reverse()
+                self._after = data[center + 1:]
+                self._center = data[center]
+            else:
+                self._before = []
+                self._after = []
+                self._center = 0
+        elif isinstance(data, Slice):
+            self._before = data._before
+            self._after = data._after
+            self._center = data._center
         else:
             self._before = []
             self._after = []
@@ -65,7 +74,7 @@ class Slice:
         self._before = self._before[:halfTargetSize]
         self._after = self._after[:halfTargetSize]
     def __str__(self):
-        return str(self._before[::-1])[1:-1] + ", " + str(self._center) + ", " + str(self._after)[1:-1]
+        return str(self._before[::-1])[1:-1] + ", _" + str(self._center) + "_, " + str(self._after)[1:-1]
     def to_short_str(self):
         return str(self._before[::-1]).replace(", ", "")[1:-1] + str(self._center) + str(self._after).replace(", ", "")[1:-1];
     def __len__(self):

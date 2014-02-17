@@ -1,16 +1,23 @@
 #import antigravity
-import CA
+import CA, CAslice, random
+from CAslice import Slice
+
+seedlen = 256
 
 def encryptMessage(message:str, seed, steps:int):
+    global seedlen
     assert len(seed) > 20
     CA.r_initCA(seed, steps) #Start up the CA with the specified seed and steps
     m_data = ",".join(message).split(",") # get message as list instead of string
     m_data = [ord(i) for i in m_data]
     m_head = 0
     ca_m_head = 4
-    ca_enc_head = len(seed) - 9
+    ca_enc_head = 4 + seedlen // 2
+
+    d = dlast = []
 
     while (CA.steps <= 0):
+        dlast = d
         d = CA.update()
         if (d[ca_m_head] == 1):
             m_head += 1
@@ -24,7 +31,45 @@ def encryptMessage(message:str, seed, steps:int):
             b += str(d[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
 
+    return str(["%02X"%(i) for i in m_data]).replace(", ",":").replace("\'","")[1:-1], d, dlast
+
+
+def decryptMessage(message:str, seed, steps:int):
+    assert len(seed) > 20
+    CA.r_initCA(seed, steps) #Start up the CA with the specified seed and steps
+    m_data = message.split(":") # get message as list instead of string
+    m_data = [int(i, 16) for i in m_data]
+    m_head = 0
+    ca_m_head = 4
+    ca_enc_head = 4 + seedlen // 2
+
+    d = dlast = []
+    while (CA.steps < -1):
+        dlast = d
+        d = CA.update()
+
+    CA.rows = [d, dlast]
+    CA.steps = -steps
+    CA.init()
+
+    while (CA.steps <= 0):
+        d = CA.update()
+        CA.update_screen(d)
+        if (d[ca_m_head] == 1):
+            m_head -= 1
+            if (m_head < 0):
+                m_head = len(m_data) - 1
+        else:
+            pass #don't move m_head
+        b = "0b"
+        r = d.range()
+        for i in range(r[0] + ca_enc_head, r[0] + ca_enc_head + 8):
+            b += str(d[i])
+        m_data[m_head] = m_data[m_head] ^ int(b, 2)
+
+    #return str([chr(i) for i in m_data]).replace(", ","").replace("\'","")[1:-1]
     return str(["%02X"%(i) for i in m_data]).replace(", ",":").replace("\'","")[1:-1]
+
 #def decryptMessage(message, seed, steps):
 
 #testSeed = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
@@ -45,3 +90,12 @@ def BinaryToChar(nums:list):
     for n in nums:
         charArray.append(chr(n))
     return charArray
+
+
+
+testSeed = [0] * 128 + [1] + [0] * 128 #[random.randint(0, 1) for i in range(seedlen + 1)]
+enc, d, dlast = encryptMessage("Hello world", testSeed, 100)
+print(enc)
+dec = decryptMessage(enc, testSeed, 100)
+print(dec)
+print(str(["%02X"%(ord(i)) for i in "Hello world"]).replace(", ",":").replace("\'","")[1:-1])
