@@ -91,8 +91,6 @@ def BinaryToChar(nums:list):
         charArray.append(chr(n))
     return charArray
 
-
-
 testSeed = [0] * 128 + [1] + [0] * 128 #[random.randint(0, 1) for i in range(seedlen + 1)]
 enc, d, dlast = encryptMessage("Hello world", testSeed, 100)
 print(enc)
