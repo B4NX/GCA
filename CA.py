@@ -28,6 +28,8 @@ color_background = (255,255,255)
 ruleNum = 214
 ruleSet = ()
 
+clipSize = 256
+
 sy = 0
 x_half = CA_SCREEN_WIDTH / 2
 
@@ -70,7 +72,7 @@ def r_build_next_row(prerow, preprerow, step = 0, trim = -1):
     return row
 
 def update_screen(r):
-    global sy, x_half
+    global sy, x_half, screen
     rng = r.range()
     for x in range(rng[0], rng[1]):
         try: val = r[x]
@@ -85,10 +87,11 @@ def update_screen(r):
     if sy == CA_SCREEN_HEIGHT:
         sy = 0
 #		screen.fill(color_background)
+    pygame.display.flip()
 
 def r_update_rows():
     global rows, steps
-    rows.append(r_build_next_row(rows[-1], rows[-2], steps, 100))
+    rows.append(r_build_next_row(rows[-1], rows[-2], steps, clipSize // 2))
     rows = rows[-2:]
     steps += 1
 
@@ -105,7 +108,6 @@ def init():
     screen = pygame.display.set_mode((CA_SCREEN_WIDTH,CA_SCREEN_HEIGHT))
     pygame.display.set_caption("Cellular automata")
     screen.fill(color_background)
-    r_initCA()
     update_screen(rows[0])
     update_screen(rows[1])
 
@@ -116,7 +118,7 @@ def r_initCA(seed = [1], stepCount = 500):
     rows = [Slice(seed), Slice(seed)] #step 5, then step 4
     steps = -stepCount
 
-###REWRITE ME for GA-controlled initial conditions
+###REWRITE ME for Crypto-controlled initial conditions
 def r_seed_rows():
     return (testCA.initialRow1, testCA.initialRow2)
  
@@ -134,4 +136,3 @@ def CAmain():
 
             r_update_rows()
             update_screen(rows[-1])
-            pygame.display.flip()
