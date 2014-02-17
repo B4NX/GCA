@@ -24,7 +24,10 @@ def encryptMessage(message:str, seed, steps:int):
             b += str(d[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
 
-    return str(["0" * (8 - len(format(i, "b"))) + format(i, "b") for i in m_data]).replace(", ","").replace("\'","")[1:-1]
+def decryptMessage(
+
+    return str(["%02X"%(i) for i in m_data]).replace(", ",":").replace("\'","")[1:-1]
 #def decryptMessage(message, seed, steps):
 testSeed = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
 print(encryptMessage("Hello world", testSeed, 100))
+print(str(["%02X"%(ord(i)) for i in "Hello world"]).replace(", ",":").replace("\'","")[1:-1])
