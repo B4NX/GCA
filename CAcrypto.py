@@ -26,6 +26,22 @@ def encryptMessage(message:str, seed, steps:int):
 
     return str(["%02X"%(i) for i in m_data]).replace(", ",":").replace("\'","")[1:-1]
 #def decryptMessage(message, seed, steps):
-testSeed = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
-print(encryptMessage("Hello world", testSeed, 100))
-print(str(["%02X"%(ord(i)) for i in "Hello world"]).replace(", ",":").replace("\'","")[1:-1])
+
+#testSeed = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
+#print(encryptMessage("Hello world", testSeed, 100))
+#print(str(["%02X"%(ord(i)) for i in "Hello world"]).replace(", ",":").replace("\'","")[1:-1])
+
+def HexToBinary(text:str):
+    """Turns a string of hex into an array of binary numbers"""
+    hexArray=text.split(":")
+    binaryArray=[]
+    for i in hexArray:
+        binaryArray.append(int(i,16))
+    return binaryArray
+
+def BinaryToChar(nums:list):
+    """Turns a list of binary numbers into an array of strings(chars)"""
+    charArray=[]
+    for n in nums:
+        charArray.append(chr(n))
+    return charArray
