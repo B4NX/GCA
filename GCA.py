@@ -12,7 +12,7 @@ def buildString(x:list):
             thing+=chr(178)
     return thing
 
-TESTSEED = [1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1]
+TESTSEED = RandSeed(seedlen)
 #TESTSEED = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 TESTMESSAGE = "The Quick Brown Fox Jumped Over the Lazy Dog"
 
@@ -22,9 +22,11 @@ mssg = input()
 if (mssg == ""):
     mssg = TESTMESSAGE
 
-print(encryptMessage(mssg,TESTSEED,100))
+print(IntsToHex(MessageToInts(mssg)))
+enc = encryptMessage(mssg,TESTSEED,seedlen)
+print(enc)
 
-print(buildString(BinaryToChar(HexToBinary(encryptMessage(mssg,TESTSEED,100)))))
+print(buildString(BinaryToChar(HexToBinary(decryptMessage(enc,TESTSEED,seedlen)))))
 
 #print("Press enter to exit")
 #input()
