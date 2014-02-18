@@ -60,6 +60,22 @@ def decryptMessage(message:str, seed, steps:int):
     CA.steps = -steps
     #CA.init() # starts the pygame window
 
+    for n in (dlast, d):
+        dH = 0
+        #CA.update_screen(d) # updates the pygame window
+        if (n[ca_m_head] == 1):
+            dH = -1
+            if (m_head < 0):
+                m_head = len(m_data) - 1
+        else:
+            dH = 0
+        b = "0b"
+        r = n.range()
+        for i in range(r[0] + ca_enc_head, r[0] + ca_enc_head + 8):
+            b += str(n[i])
+        m_data[m_head] = m_data[m_head] ^ int(b, 2)
+        m_head += dH
+
     while (CA.steps <= 0):
         dH = 0
         d = CA.update()
