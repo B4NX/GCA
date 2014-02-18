@@ -12,7 +12,7 @@ def encryptMessage(message:str, seed, steps:int):
     m_data = [ord(i) for i in m_data]
     m_head = 0
     ca_m_head = 4
-    ca_enc_head = 4 + seedlen // 2
+    ca_enc_head = seedlen // 2 - 4
 
     d = dlast = []
 
@@ -41,7 +41,7 @@ def decryptMessage(message:str, seed, steps:int):
     m_data = [int(i, 16) for i in m_data]
     m_head = 0
     ca_m_head = 4
-    ca_enc_head = 4 + seedlen // 2
+    ca_enc_head = seedlen // 2 - 4
 
     d = dlast = []
     while (CA.steps < 3):
@@ -59,19 +59,21 @@ def decryptMessage(message:str, seed, steps:int):
     CA.init()
 
     while (CA.steps <= 0):
+        dH = 0
         d = CA.update()
         CA.update_screen(d)
         if (d[ca_m_head] == 1):
-            m_head -= 1
+            dH = -1
             if (m_head < 0):
                 m_head = len(m_data) - 1
         else:
-            pass #don't move m_head
+            dH = 0
         b = "0b"
         r = d.range()
         for i in range(r[0] + ca_enc_head, r[0] + ca_enc_head + 8):
             b += str(d[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
+        m_head += dH
 
     #return str([chr(i) for i in m_data]).replace(", ","").replace("\'","")[1:-1]
     return str(["%02X"%(i) for i in m_data]).replace(", ",":").replace("\'","")[1:-1]
