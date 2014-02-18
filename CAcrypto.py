@@ -60,7 +60,8 @@ def decryptMessage(message:str, seed, steps:int):
     CA.steps = -steps
     #CA.init() # starts the pygame window
 
-    for n in (dlast, d):
+    ##Todo: refactor these two runs into the below code to maximize reuse
+    for n in (d, dlast):
         dH = 0
         #CA.update_screen(d) # updates the pygame window
         if (n[ca_m_head] == 1):
@@ -75,6 +76,8 @@ def decryptMessage(message:str, seed, steps:int):
             b += str(n[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
         m_head += dH
+        debug.write("d\t")
+        DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
 
     while (CA.steps <= 0):
         dH = 0
@@ -129,7 +132,7 @@ def DumpCurrentRow(steps:int, m_head:int, m_data:list, ca_m_head:int, d:Slice, b
         if (i == m_head):
             debug.write(str(("__" + str(m_data[i]) + "__")))
         else:
-            debug.write(str(m_data[i]))
+            debug.write("  " + str(m_data[i]) + "  ")
         if (i != len(m_data) - 1):
             debug.write(", ")
     debug.write("\t\t")
