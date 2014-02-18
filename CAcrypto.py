@@ -92,8 +92,14 @@ def BinaryToChar(nums:list):
     for n in nums:
         charArray.append(chr(n))
     return charArray
+def RandSeed(len:int):
+    """Returns a random seed of the specified length"""
+    seed=[-1]*len
+    for i in seed:
+        i=random.randint(0,1)
+    return seed
 
-testSeed = [0] * 128 + [1] + [0] * 128 #[random.randint(0, 1) for i in range(seedlen + 1)]
+testSeed = RandSeed(128)
 enc, d, dlast = encryptMessage("Hello world", testSeed, 100)
 print(enc)
 dec = decryptMessage(enc, testSeed, 100)

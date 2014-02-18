@@ -9,12 +9,14 @@
 #2014
 
 import sys
-import pygame
 import random
+
 import testCA
 import CAslice
-from pygame.locals import *
 from CAslice import Slice
+
+import pygame
+from pygame.locals import *
 
 CA_SCREEN_WIDTH = 400
 CA_SCREEN_HEIGHT = 800
