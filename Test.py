@@ -22,7 +22,7 @@ def makeString(charArray:list):
 correct = 0
 total = 0
 
-for n in range(1,12):
+for n in range(1,2^256):
     word = getRandWord()
     seed = RandSeed(256)
 
@@ -30,13 +30,13 @@ for n in range(1,12):
 
     dec = decryptMessage(enc,seed,256)
 
-    print(word)
+    #print(word)
     x=HexToBinary(dec)
     x=BinaryToChar(x)
-    print(makeString(x))
-    #if (word == buildString(BinaryToChar(HexToBinary(dec)))):
-    #    correct+=1
-    #total+=1
+    #print(makeString(x))
+    if (word == buildString(BinaryToChar(HexToBinary(dec)))):
+        correct+=1
+    total+=1
 
 print(str(correct) + " correct out of " + str(total))
 print(str(correct / total) + "%")
