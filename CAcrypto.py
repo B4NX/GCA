@@ -79,7 +79,7 @@ def decryptMessage(message:str, seed, steps:int):
         debug.write("d\t")
         DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
 
-    while (CA.steps < -2):
+    while (CA.steps <= -2):
         dH = 0
         d = CA.update()
         #CA.update_screen(d) # updates the pygame window
