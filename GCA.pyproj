@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{634cae69-36ff-4fba-8c72-8d909b15e8d9}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>GCA.py</StartupFile>
+    <StartupFile>Test.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -566,6 +566,7 @@
     </Compile>
     <Compile Include="GCA.py" />
     <Compile Include="pathfind.py" />
+    <Compile Include="Test.py" />
     <Compile Include="testCA.py" />
   </ItemGroup>
   <ItemGroup>

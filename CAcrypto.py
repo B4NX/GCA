@@ -32,7 +32,7 @@ def encryptMessage(message:str, seed, steps:int):
             b += str(d[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
         DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
-    debug.write("\n\n\n")
+    #debug.write("\n\n\n")
     return IntsToHex(m_data)
 
 def decryptMessage(message:str, seed, steps:int):
@@ -55,7 +55,7 @@ def decryptMessage(message:str, seed, steps:int):
         else:
             pass #don't move m_head
         debug.write("mhead: " + str(m_head) + "\tdelta mhead: " + str(d[ca_m_head]) + "\n")
-    debug.write("\n\n\n")
+    #debug.write("\n\n\n")
     CA.rows = [d, dlast]
     CA.steps = -steps
     #CA.init() # starts the pygame window
@@ -76,7 +76,7 @@ def decryptMessage(message:str, seed, steps:int):
             b += str(n[i])
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
         m_head += dH
-        debug.write("d\t")
+        #debug.write("d\t")
         DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
 
     while (CA.steps <= 0):
@@ -96,7 +96,7 @@ def decryptMessage(message:str, seed, steps:int):
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
         m_head += dH
         DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
-    debug.close()
+    #debug.close()
     return IntsToHex(m_data)
 
 def HexToBinary(text:str):
@@ -126,20 +126,21 @@ def RandSeed(len:int):
     return seed
 
 def DumpCurrentRow(steps:int, m_head:int, m_data:list, ca_m_head:int, d:Slice, b:str):
-    debug.write(str(steps))
-    debug.write("\t" )
-    for i in range(len(m_data)):
-        if (i == m_head):
-            debug.write(str(("__" + str(m_data[i]) + "__")))
-        else:
-            debug.write("  " + str(m_data[i]) + "  ")
-        if (i != len(m_data) - 1):
-            debug.write(", ")
-    debug.write("\t\t")
-    debug.write(b)
-    debug.write("\t")
-    debug.write(str(d[ca_m_head]))
-    debug.write("\n")
+    pass
+    #debug.write(str(steps))
+    #debug.write("\t" )
+    #for i in range(len(m_data)):
+    #    if (i == m_head):
+    #        debug.write(str(("__" + str(m_data[i]) + "__")))
+    #    else:
+    #        debug.write("  " + str(m_data[i]) + "  ")
+    #    if (i != len(m_data) - 1):
+    ##        debug.write(", ")
+    #debug.write("\t\t")
+    #debug.write(b)
+    #debug.write("\t")
+    #debug.write(str(d[ca_m_head]))
+    #debug.write("\n")
 #testSeed =  RandSeed(seedlen)
 #enc, d, dlast = encryptMessage("Hello world", testSeed, 100)
 #print(enc)
