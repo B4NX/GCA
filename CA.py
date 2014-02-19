@@ -15,8 +15,8 @@ import testCA
 import CAslice
 from CAslice import Slice
 
-import pygame
-from pygame.locals import *
+#import pygame
+#from pygame.locals import *
 
 CA_SCREEN_WIDTH = 400
 CA_SCREEN_HEIGHT = 800
@@ -73,23 +73,23 @@ def r_build_next_row(prerow, preprerow, step = 0, trim = -1):
         row.trimTo(trim)
     return row
 
-def update_screen(r):
-    global sy, x_half, screen
-    rng = r.range()
-    for x in range(rng[0], rng[1]):
-        try: val = r[x]
-        except IndexError:
-            val = 0
-        if val:
-            screen.set_at((int(x + x_half),sy), color_cell)
-        else:
-            screen.set_at((int(x + x_half),sy), color_background)
-        x+=1
-    sy+=1
-    if sy == CA_SCREEN_HEIGHT:
-        sy = 0
-#		screen.fill(color_background)
-    pygame.display.flip()
+#def update_screen(r):
+#    global sy, x_half, screen
+#    rng = r.range()
+#    for x in range(rng[0], rng[1]):
+#        try: val = r[x]
+#        except IndexError:
+#            val = 0
+#        if val:
+#            screen.set_at((int(x + x_half),sy), color_cell)
+#        else:
+#            screen.set_at((int(x + x_half),sy), color_background)
+#        x+=1
+#    sy+=1
+#    if sy == CA_SCREEN_HEIGHT:
+#        sy = 0
+##		screen.fill(color_background)
+#    pygame.display.flip()
 
 def r_update_rows():
     global rows, steps
@@ -104,14 +104,14 @@ def update():
     r_update_rows()
     return getLastRow()
 
-def init():
-    global background, screen
-    pygame.init()
-    screen = pygame.display.set_mode((CA_SCREEN_WIDTH,CA_SCREEN_HEIGHT))
-    pygame.display.set_caption("Cellular automata")
-    screen.fill(color_background)
-    update_screen(rows[0])
-    update_screen(rows[1])
+#def init():
+#    global background, screen
+#    pygame.init()
+#    screen = pygame.display.set_mode((CA_SCREEN_WIDTH,CA_SCREEN_HEIGHT))
+#    pygame.display.set_caption("Cellular automata")
+#    screen.fill(color_background)
+#    update_screen(rows[0])
+#    update_screen(rows[1])
 
 def r_initCA(seed = [1], stepCount = 500):
     global rows, ruleSet, steps
@@ -127,14 +127,14 @@ def r_seed_rows():
 def CAmain():
     global rows, steps
     while steps <= 0:
-            for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                            pygame.quit()
-                            sys.exit()
-                    if event.type == pygame.KEYDOWN:
-                        pass
-                            #pygame.quit()
-                            #sys.exit()
+            #for event in pygame.event.get():
+            #        if event.type == pygame.QUIT:
+            #                #pygame.quit()
+            #                #sys.exit()
+            #        if event.type == pygame.KEYDOWN:
+            #            pass
+            #                #pygame.quit()
+            #                #sys.exit()
 
             r_update_rows()
             update_screen(rows[-1])
