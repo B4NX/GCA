@@ -1,5 +1,6 @@
 #import antigravity
-import CA, CAslice, testCA, random
+import CA, CAslice, testCA
+from random import SystemRandom
 from CAslice import Slice
 
 seedlen = 266
@@ -122,7 +123,7 @@ def IntsToHex(nums:list):
 
 def RandSeed(len:int):
     """Returns a random seed of the specified length"""
-    seed=[random.randint(0, 1) for i in range(len)]
+    seed=[SystemRandom.randint(0, 1) for i in range(len)]
     return seed
 
 def DumpCurrentRow(steps:int, m_head:int, m_data:list, ca_m_head:int, d:Slice, b:str):
