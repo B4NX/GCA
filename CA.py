@@ -9,7 +9,7 @@
 #2014
 
 import sys
-import random
+from random import SystemRandom
 
 import testCA
 import CAslice
