@@ -1,11 +1,15 @@
 #import antigravity
-import CA, CAslice, testCA
+import CA
+import CAslice
+import testCA
 from random import SystemRandom
 from CAslice import Slice
 
 seedlen = 266
 
 debug = open('debug.log', 'w')
+
+randGen = SystemRandom()
 
 def encryptMessage(message:str, seed, steps:int):
     global seedlen, debug
@@ -102,15 +106,15 @@ def decryptMessage(message:str, seed, steps:int):
 
 def HexToBinary(text:str):
     """Turns a string of hex into an array of binary numbers"""
-    hexArray=text.split(":")
-    binaryArray=[]
+    hexArray = text.split(":")
+    binaryArray = []
     for i in hexArray:
         binaryArray.append(int(i,16))
     return binaryArray
 
 def BinaryToChar(nums:list):
     """Turns a list of binary numbers into an array of strings(chars)"""
-    charArray=[]
+    charArray = []
     for n in nums:
         charArray.append(chr(n))
     return charArray
@@ -119,11 +123,11 @@ def MessageToInts(message:str):
     return [ord(i) for i in list(message)]
 
 def IntsToHex(nums:list):
-    return str(["%02X"%(i) for i in nums]).replace(", ",":").replace("\'","")[1:-1]
+    return str(["%02X" % (i) for i in nums]).replace(", ",":").replace("\'","")[1:-1]
 
 def RandSeed(len:int):
     """Returns a random seed of the specified length"""
-    seed=[SystemRandom.randint(0, 1) for i in range(len)]
+    seed = [randGen.randint(0, 1) for i in range(len)]
     return seed
 
 def DumpCurrentRow(steps:int, m_head:int, m_data:list, ca_m_head:int, d:Slice, b:str):

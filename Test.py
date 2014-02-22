@@ -7,11 +7,13 @@ letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 's'
 
 outfile = open("results.csv",'a')
 
+randGen=SystemRandom()
+
 def getRandWord():
     word = ""
-    len= SystemRandom.randint(1,100)
+    len= randGen.randint(1,100)
     for i in range(len):
-        word+=letters[SystemRandom.randint(0,31)]
+        word+=letters[randGen.randint(0,31)]
         
     return word
 
@@ -30,7 +32,7 @@ def writeOut(mssg:str, enc, dec, seed, steps):
 for x in range(0,1000):
     mssg=getRandWord()
     seed=CAcrypto.RandSeed(256)
-    steps=SystemRandom.randint(75,125)
+    steps=randGen.randint(75,125)
     enc=GCA.EncryptMessage(mssg,seed,100)
     dec=GCA.DecryptMessage(enc,seed,100)
     writeOut(mssg,enc,dec,seed,100)
