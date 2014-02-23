@@ -10,8 +10,7 @@
 
 import sys
 from random import SystemRandom
-
-import testCA
+import random
 import CAslice
 from CAslice import Slice
 
@@ -116,13 +115,9 @@ def update():
 def r_initCA(seed = [1], stepCount = 500):
     global rows, ruleSet, steps
     ruleSet = makeRule(ruleNum)
-    irow = r_seed_rows()
     rows = [Slice(seed), Slice(seed)] #step 5, then step 4
     steps = -stepCount
 
-###REWRITE ME for Crypto-controlled initial conditions
-def r_seed_rows():
-    return (testCA.initialRow1, testCA.initialRow2)
  
 def CAmain():
     global rows, steps

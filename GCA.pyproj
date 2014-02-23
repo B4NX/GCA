@@ -567,7 +567,7 @@
     <Compile Include="GCA.py" />
     <Compile Include="pathfind.py" />
     <Compile Include="Test.py" />
-    <Compile Include="testCA.py" />
+    <Compile Include="Test_Integral_Attack.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GA\" />

@@ -1,7 +1,6 @@
 #import antigravity
 import CA
 import CAslice
-import testCA
 from random import SystemRandom
 from CAslice import Slice
 
@@ -11,11 +10,15 @@ debug = open('debug.log', 'w')
 
 randGen = SystemRandom()
 
-def encryptMessage(message:str, seed, steps:int):
+def encrpytMessage(message:str, seed, steps:int):
+     return IntsToHex(Encrypt(MessageToInts(message), seed, steps))
+
+# list is of ints, so they are implicitly treated as blocks of 8
+def Encrypt(bytes:list, seed, steps:int):
     global seedlen, debug
     assert len(seed) > 20
     CA.r_initCA(seed, steps) #Start up the CA with the specified seed and steps
-    m_data = MessageToInts(message)
+    m_data = bytes[:]
     m_head = 0
     ca_m_head = 4
     ca_enc_head = seedlen // 2 - 4
@@ -38,13 +41,17 @@ def encryptMessage(message:str, seed, steps:int):
         m_data[m_head] = m_data[m_head] ^ int(b, 2)
         DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
     #debug.write("\n\n\n")
-    return IntsToHex(m_data)
+    return m_data
 
 def decryptMessage(message:str, seed, steps:int):
-    assert len(seed) > 20
-    CA.r_initCA(seed, steps) #Start up the CA with the specified seed and steps
     m_data = message.split(":") # get message as list instead of string
     m_data = [int(i, 16) for i in m_data]
+    return IntsToHex(Decrypt(m_data, seed, steps))
+
+def Decrypt(bytes:list, seed, steps:int):
+    assert len(seed) > 20
+    CA.r_initCA(seed, steps) #Start up the CA with the specified seed and steps
+    m_data = bytes[:]
     m_head = 0
     ca_m_head = 4
     ca_enc_head = seedlen // 2 - 4
@@ -102,7 +109,7 @@ def decryptMessage(message:str, seed, steps:int):
         m_head += dH
         DumpCurrentRow(CA.steps, m_head, m_data, ca_m_head, d, b)
     #debug.close()
-    return IntsToHex(m_data)
+    return m_data
 
 def HexToBinary(text:str):
     """Turns a string of hex into an array of binary numbers"""
