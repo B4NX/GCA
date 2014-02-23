@@ -27,7 +27,7 @@ def writeOut(mssg:str, enc, dec, seed, steps):
     outfile.write(time+"\t"+str(mssg)+"\t"+str(enc)+"\t"+str(dec)+"\t"+str(seed)+"\t"+str(steps)+"\n")
     outfile.close()
 
-for x in range(0,5):
+for x in range(0,1000):
     print(x)
     mssg=getRandWord()
     seed=CAcrypto.RandSeed(256)
