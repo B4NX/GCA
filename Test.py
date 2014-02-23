@@ -24,7 +24,6 @@ def makeString(charArray:list):
 def writeOut(mssg:str, enc, dec, seed, steps):
     outfile = open("results.tsv",'a')
     time=str(datetime.datetime.now())
-    print(time+"\t"+str(mssg)+"\t"+str(enc)+"\t"+str(dec)+"\t"+str(seed)+"\t"+str(steps)+"\n")
     outfile.write(time+"\t"+str(mssg)+"\t"+str(enc)+"\t"+str(dec)+"\t"+str(seed)+"\t"+str(steps)+"\n")
     outfile.close()
 
