@@ -14,7 +14,7 @@ def writeOut(wordl:list, enc, seed, steps):
     outfile.write(time + "\t" + str(wordl) + "\t" + str(enc) + "\t" + str(seed) + "\t" + str(steps) + "\n")
     outfile.close()
 
-for i in range(0,5):
+for i in range(0,1000):
     print(i)
 
     word = Test.getRandWord()
