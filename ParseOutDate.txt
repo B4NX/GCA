@@ -1,0 +1,7 @@
+file=open("Frequency_results.tsv")
+
+lines=file.readlines()
+file.close()
+
+for line in lines:
+	

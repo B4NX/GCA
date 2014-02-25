@@ -1,4 +1,5 @@
 from random import SystemRandom
+import time as pythonTime
 
 import CAcrypto
 import GCA
@@ -10,11 +11,11 @@ from Test import letters
 
 def writeOut(wordl:list, enc, seed, steps):
     outfile = open("Frequency_results.tsv",'a')
-    time = str(datetime.datetime.now())
+    time=pythonTime.strftime("%H:%M:%S",pythonTime.gmtime())
     outfile.write(time + "\t" + str(wordl) + "\t" + str(enc) + "\t" + str(seed) + "\t" + str(steps) + "\n")
     outfile.close()
 
-for i in range(0,1000):
+for i in range(0,864000):
     print(i)
 
     word = Test.getRandWord()
@@ -26,3 +27,6 @@ for i in range(0,1000):
     enc = GCA.encrpytMessage(word,seed,steps)
 
     writeOut(wordList,enc,seed,steps)
+
+time=pythonTime.strftime("%H:%M:%S",pythonTime.gmtime())
+print("All done at: "+time)
