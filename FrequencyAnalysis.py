@@ -15,6 +15,7 @@ def writeOut(wordl:list, enc, seed, steps):
     outfile.write(time + "\t" + str(wordl) + "\t" + str(enc) + "\t" + str(seed) + "\t" + str(steps) + "\n")
     outfile.close()
 
+exit(0)
 for i in range(0,864000):
     print(i)
 

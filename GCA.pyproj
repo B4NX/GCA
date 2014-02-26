@@ -27,6 +27,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Analysis\FrequencyPlot.py" />
     <Compile Include="CA.py" />
     <Compile Include="CAcrypto.py" />
     <Compile Include="CAslice.py" />
@@ -624,6 +625,7 @@
     <Folder Include="GA\examples\gp\" />
     <Folder Include="GA\examples\gp\ant\" />
     <Folder Include="GA\examples\pso\" />
+    <Folder Include="Analysis\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GA\deap\__pycache__\__init__.cpython-33.pyc">
