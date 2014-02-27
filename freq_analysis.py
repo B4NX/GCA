@@ -24,7 +24,7 @@ def writeFrequencies(frequencies):
 
 print(getFrequencies())
 plot.hist(getFrequencies())
-plot.xlabel("Occurences")
-plot.ylabel("ASCII value of character")
+plot.ylabel("Occurences")
+plot.xlabel("ASCII value of character")
 plot.title("Histogram of character frequencies")
 plot.show()
