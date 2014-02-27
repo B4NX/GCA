@@ -29,3 +29,5 @@ so when you shift a bit, you literally just add or subtract one. Unless you can 
 Maybe if you xor it with a certain number of bits every generation? Something fancy like that
 
 okay
+
+I did a thing with a thing and a thing.
