@@ -15,8 +15,10 @@ def getFrequencies():
         hexes = enc.split(":")
         hexes = [int(i, 16) for i in hexes]
         for i in range(len(hexes) - 1):
-            changevalues.append(msg[i] - hexes[i])
+            changevalues.append(hexes[i] - msg[i])
         line = infile.readline()
+        #print("\n")
+        #n += 1
     infile.close()
     return changevalues
 
@@ -26,5 +28,5 @@ plot.hist(changev, 1024, color='black')
 plot.ylabel("Occurences")
 plot.xlabel("Displacement of character")
 plot.title("Displacement of Character Values")
-plot.show()
+#plot.show()
 fig.savefig("figure-3.png", dpi=300)
