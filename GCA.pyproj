@@ -32,6 +32,7 @@
     <Compile Include="CAcrypto.py" />
     <Compile Include="CAslice.py" />
     <Compile Include="FrequencyAnalysis.py" />
+    <Compile Include="freq_analysis.py" />
     <Compile Include="GA\build\lib\deap\algorithms.py">
       <SubType>Code</SubType>
     </Compile>
