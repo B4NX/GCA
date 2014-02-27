@@ -21,7 +21,7 @@ def getFrequencies():
     return changevalues
 
 changev = getFrequencies()
-plot.hist(changev, 256)
+plot.hist(changev, 512)
 plot.ylabel("Occurences")
 plot.xlabel("Displacement of character")
 plot.title("Displacement of Character Values")
