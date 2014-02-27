@@ -2,6 +2,7 @@ import re
 import matplotlib.pyplot as plot
 
 def getFrequencies():
+    hexvalues = []
     frequencies = [[i, 0] for i in range(256)]
     infile = open("Frequency_results.tsv",'r')
     line = infile.readline()
@@ -12,18 +13,20 @@ def getFrequencies():
         hexes = enc.split(":")
         hexes = [int(i, 16) for i in hexes]
         for i in range(len(hexes) - 1):
+            hexvalues.append(hexes[i])
             frequencies[hexes[i]][1] += 1
         line = infile.readline()
     infile.close()
-    return frequencies
+    return hexvalues, frequencies
 
 def writeFrequencies(frequencies):
     outfile = open("freq.txt",'a')
     outfile.write(str(frequencies))
     outfile.close()
 
-print(getFrequencies())
-plot.hist(getFrequencies())
+hexv, freq = getFrequencies()
+writeFrequencies(freq)
+plot.hist(hexv, 256)
 plot.ylabel("Occurences")
 plot.xlabel("ASCII value of character")
 plot.title("Histogram of character frequencies")
