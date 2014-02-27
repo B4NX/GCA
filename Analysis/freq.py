@@ -26,8 +26,10 @@ def writeFrequencies(frequencies):
 
 hexv, freq = getFrequencies()
 writeFrequencies(freq)
-plot.hist(hexv, 256)
+fig = plot.figure(3, (8, 5), 300)
+plot.hist(hexv, 256, color='black')
 plot.ylabel("Occurences")
 plot.xlabel("ASCII value of character")
 plot.title("Histogram of character frequencies")
 plot.show()
+fig.savefig("figure-2.png")
