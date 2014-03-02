@@ -43,7 +43,7 @@ def getRandString(len:int):
 def EncryptMessage(mssg:str,seed,steps:int):
     """Encrypt the specified message using the specified seed and number of steps and return the encrypted version"""
     paddedMssg = padMessage(mssg)
-    encrypted = encrpytMessage(mssg,seed,steps)
+    encrypted = encryptMessage(mssg,seed,steps)
     return encrypted
 def DecryptMessage(encrypted,seed, steps:int):
     """Decrpyts the message using the specified seed and steps
