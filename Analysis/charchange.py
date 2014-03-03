@@ -5,7 +5,7 @@ import numpy as np
 def getFrequencies():
     changevalues = []
     frequencies = [[i, 0] for i in range(400)]
-    infile = open("Frequency_results.tsv",'r')
+    infile = open("Data3.tsv",'r')
     line = infile.readline()
     n = 0
     while (line != "" and n < 5):
