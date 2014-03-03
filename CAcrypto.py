@@ -3,6 +3,7 @@ import CA
 import CAslice
 from random import SystemRandom
 from CAslice import Slice
+from itertools import chain
 
 seedlen = 266
 
@@ -10,7 +11,7 @@ debug = open('debug.log', 'w')
 
 randGen = SystemRandom()
 
-def encrpytMessage(message:str, seed, steps:int):
+def encryptMessage(message:str, seed, steps:int):
      return IntsToHex(Encrypt(MessageToInts(message), seed, steps))
 
 # list is of ints, so they are implicitly treated as blocks of 8
@@ -21,7 +22,7 @@ def Encrypt(bytes:list, seed, steps:int):
     m_data = bytes[:]
     m_head = 0
     ca_m_head = 4
-    ca_enc_head = seedlen // 2 - 4
+    ca_enc_head = len(seed) // 2 - 4
 
     d = dlast = []
 
@@ -54,7 +55,7 @@ def Decrypt(bytes:list, seed, steps:int):
     m_data = bytes[:]
     m_head = 0
     ca_m_head = 4
-    ca_enc_head = seedlen // 2 - 4
+    ca_enc_head = len(seed) // 2 - 4
 
     d = dlast = []
     while (CA.steps <= 0):
@@ -111,6 +112,9 @@ def Decrypt(bytes:list, seed, steps:int):
     #debug.close()
     return m_data
 
+def MessageToSeed(text:str):
+	return list(chain.from_iterable([[int(i) for i in bin(ord(j))[2:]] for j in text]))
+	
 def HexToBinary(text:str):
     """Turns a string of hex into an array of binary numbers"""
     hexArray = text.split(":")
